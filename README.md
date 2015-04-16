@@ -1,7 +1,9 @@
 DomoPiJS
 ========
 
-Domotique de maison basé sur le RaspBerryPi, Arduino, NodeJS et Javascript 
+Projet de domotique de maison basé sur le RaspBerryPi, Arduino, NodeJS et Javascript 
+
+Copyright@CPNV - www.cpnv.ch
 
 Projet basé sur le Framework Johnny-five (https://github.com/rwaldron/johnny-five)
 
