@@ -5,7 +5,7 @@ Projet de domotique de maison basé sur le RaspBerryPi, Arduino, NodeJS et Javas
 
 Copyright at CPNV - www.cpnv.ch
 
-Projet basé sur le Framework Johnny-five (https://github.com/rwaldron/johnny-five)
+Projet basé sur le [Framework Johnny-five](https://github.com/rwaldron/johnny-five)
 
 ## Installation sur le Rasperry Pi
 
