@@ -1,5 +1,5 @@
-console.log("Acces aux comportements");
-alert('Cette fenetre doit finir par se transformer en login - surement changer le système d alerte');
+console.log("main.js ready");
+alert('Hello world!');
 
 
 
@@ -7,49 +7,45 @@ alert('Cette fenetre doit finir par se transformer en login - surement changer l
 document.addEventListener('DOMContentLoaded', function() {
  
 
-  // Liens du menu principal - Permet de changer la partie principale
-  //Au clique sur Controle
+  // menu links - to display Led or Motor area
   $('#linkControl').click(function(){
-    $('#containerConfig').hide();
+    $('#containerMotor').hide();
 	$('#containerAdmin').hide();
 	$('#containerTryPage').hide();
-    $('#linkConfig').removeClass('active');
+    $('#linkMotor').removeClass('active');
 	$('#linkAdmin').removeClass('active');
 	$('#linkTryPage').removeClass('active');
     $('#containerControl').show();
     $('#linkControl').addClass('active');
   });
-  
-  //Au clique sur Motor
-  $('#linkConfig').click(function(){
+  $('#linkMotor').click(function(){
     $('#containerControl').hide();
 	$('#containerAdmin').hide();
 	$('#containerTryPage').hide();
     $('#linkControl').removeClass('active');
 	$('#linkAdmin').removeClass('active');
 	$('#linkTryPage').removeClass('active');
-    $('#containerConfig').show();
-    $('#linkConfig').addClass('active');
+    $('#containerMotor').show();
+    $('#linkMotor').addClass('active');
   });
   
-  //Au clique sur la page d'essai
   $('#linkTryPage').click(function(){
     $('#containerControl').hide();
 	$('#containerAdmin').hide();
-	$('#containerConfig').hide();
+	$('#containerMotor').hide();
     $('#linkControl').removeClass('active');
 	$('#linkAdmin').removeClass('active');
-	$('#linkConfig').removeClass('active');
+	$('#linkMotor').removeClass('active');
     $('#containerTryPage').show();
     $('#linkTryPage').addClass('active');
   });
 
   //sous menu admin - comportement de la barre de navigation
   $('#linkAdmin').click(function(){
-    $('#containerConfig').hide();
+    $('#containerMotor').hide();
 	$('#containerControl').hide();
 	$('#containerTryPage').hide();
-    $('#linkConfig').removeClass('active');
+    $('#linkMotor').removeClass('active');
 	$('#linkControl').removeClass('active');
 	$('#linkTryPage').removeClass('active');
     $('#containerAdmin').show();
@@ -68,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkAnalogIn').addClass('active');
 	});
   
-	//au clique sur sortie analogique
+  
 	$('#linkAnalogOut').click(function(){
 	$('#containerAnalogIn').hide();
 	$('#containerNumericIn').hide();
@@ -80,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkAnalogOut').addClass('active');
 	});
   
-	//Au clique sur entrée numérique
 	$('#linkNumericIn').click(function(){
 	$('#containerAnalogIn').hide();
 	$('#containerAnalogOut').hide();
@@ -92,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkNumericIn').addClass('active');
 	});
   
-	//Au clique sur sorties numériques
 	$('#linkNumericOut').click(function(){
 	$('#containerAnalogIn').hide();
 	$('#containerAnalogOut').hide();
@@ -103,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#containerNumericOut').show();
 	$('#linkNumericOut').addClass('active');
 	});
-	
 	
 	// Comportement menu Control
 	
@@ -177,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log("Fin du chargement des comportements");
   
   
-  // led button - pas au point, car utilise des proriétés propres a Johnny-five
+  // led button
   $('#btnToggleLed').click(function(){
     if(led.isOn){
       led.off();
@@ -191,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // motor button - idem - tenter de créer une fonction qui en appel a plusieurs endroit différents: sur le html pour le comportement visuel et sur le app.js pour le comportement phyisique avec johnny-five
+  // motor button
   $('#btnToggleMotor').click(function(){
     if(motor.isOn){
       motor.stop();
@@ -203,6 +196,65 @@ document.addEventListener('DOMContentLoaded', function() {
       $('#motor').addClass('fa-spin');
       $(this).addClass('btn-primary').text('Turn Off');
     }
+  });
+
+  // list all avaliable serial ports in the serialports button
+  // user choose the port where Arduino board is connected
+  var html = '';
+  serialPort.list(function (err, ports) {
+
+    ports.forEach(function(p) {
+      var portName = p.comName.toString();
+      html += '<li id="port'+portName+'"><a href="#">'+portName+'</a></li>';
+      // when user select the port
+      $('#serialPorts').on('click', '#port'+portName, p, function(data){
+
+        $('#labelPort').removeClass('btn-primary').addClass('btn-default');
+        $('#labelPort').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+
+        // create the board connected to the port selected
+        board = new five.Board({port: portName});
+
+        // when board is ready
+        board.on('ready', function() {
+          // create Led component connected to the pin 13
+          led = new five.Led({
+            pin: 13
+          });
+          // create Motor component connected to the pin 5
+          motor = new five.Motor({
+            pin: 5
+          });
+          // and inject Led and Motor in the Repl of the board
+          board.repl.inject({
+            led: led,
+            motor: motor
+          });
+
+          // show serial port name
+          $('#labelPort').text(portName);
+          $('#labelPort').removeClass('btn-default').addClass('btn-primary');
+        });
+
+        // when serial port error
+        board.on('error', function(err){
+          // show error message
+          $('#labelPort').removeClass('btn-primary btn-default').addClass('btn-danger');
+          $('#labelPort').text('Error!');
+          // remove error message and return to normal state
+          setTimout(function(){
+            $('#labelPort').removeClass('btn-danger').addClass('btn-default');
+            $('#labelPort').text('Ports');
+          }, 5000);
+        });
+
+      });
+
+    });
+
+    // show serial ports names
+    $('#serialPorts').html(html);
+
   });
 
 });

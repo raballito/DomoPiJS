@@ -1,0 +1,61 @@
+body {
+  margin-top: 68px;
+  background-image: url('../img/background2.png');
+  
+}
+
+
+#dragBarTop {
+  -webkit-app-region: drag;
+  background-color: rgb(63, 63, 63);
+}
+
+#closeWindow {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  opacity: 0.5;
+  margin-right: 4px;
+  color: #FFFFFF;
+}
+
+#closeWindow:hover {
+  opacity: 0.9;
+}
+
+#main {
+  margin-top: 100px;
+}
+
+.titre{
+color:white;
+text-align:center;
+}
+
+.nav-sidebar{
+color:white;
+
+}
+
+.navbar-brand{
+padding: 9px;
+}
+
+.portsButton {
+  margin-top: 8px;
+}
+
+.jumbotron-icon {
+  font-size: 20em;
+}
+
+.led-on {
+  color: #FFCC33
+}
+
+.search{
+padding: 15px;
+}
+
+.slides{
+padding: 15px;
+}
