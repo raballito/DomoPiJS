@@ -1,0 +1,852 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DomoPi - Home Automation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+	
+	<!-- Bootstrap -->
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	
+  </head>
+  <body>
+	<!-- Menu principal - en haut! -->
+    <navigation id="menu">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navegationBar">
+              <span class="sr-only">Change navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+              <img src="img/nodebot.png"> DomoPi - Home Automation 
+            </a>
+          </div>
+          <div class="collapse navbar-collapse" id="navegationBar">
+            <ul class="nav navbar-nav">
+              <li  id="linkControl" class="active">
+                <a href="#" ><i class="fa fa-sliders"></i> Contrôle</a>
+              </li>
+              <li  id="linkConfig">
+                <a href="#" ><i class="fa fa-cogs"></i> Configuration</a>
+              </li>
+			  <li  id="linkAdmin">
+                <a href="#" ><i class="fa fa-tasks"></i> Admin</a>
+              </li>
+			  <li  id="linkTryPage">
+                <a href="#" ><i class="fa fa-flag"></i> TryPage</a>
+              </li>
+			  
+			  <!-- Menu déroulant d'aide -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Aide <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="remote.html"><i class="fa fa-mobile"></i> Mode Telecomande</a>
+					<!-- Lance la page de controle par la telecomande - WIP - les controles ne sont pas au points -->
+                  </li>
+				  <li class="divider"></li>
+				  <li>
+                    <a href="#"><i class="fa fa-book"></i> Docs</a>
+					<!-- La partie Docs doit monter la documentation technique de la maison i.e. le manuel -->
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-rocket"></i> Tour</a>
+					<!-- La partie Tour doit pouvoir montrer rapidement ou sont les choses -->
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a data-toggle="modal" href="#about"><i class="fa fa-info-circle"></i> A Propos</a>
+					<!-- Doit permettre de donner les infos à propos de notre groupe -->
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+			
+			
+			
+            <!-- Serial Ports button - Doit permettre la sélection du port de communication avec l'arduino -->
+			<!-- Pas obligatoire, vu que le port sera fixe i.e. port:"COM3" -->
+			<!--
+            <div class="btn-group navbar-right portsButton">
+              <button type="button" class="btn btn-default" id="labelPort">Ports</button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu" id="serialPorts">
+                <li><a href="#">port</a></li>
+              </ul>
+            </div>
+			-->
+          </div>
+        </div>
+      </nav>
+    </navigation>
+
+	<!-- Fenêtre principale -->
+	<!-- Liste de tous les onglets principaux -->
+    <div class="container col-lg-12" id="main">
+	<!-- Page de "Aide/A Propos" -->
+	<div class="modal" id="about">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">x</button>
+					<h4 class="modal-title">A Propos</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							DomoPi Version 0.0.1
+						</div>
+						<div class="col-md-4">
+							<a href="http://www.cpnv.ch"<i class="fa fa-copyright"></i> CPNV - 2015 </a>
+						</div>
+					</div>
+					</br>
+					<div class="row">
+						<div class="col-md-4">
+							Auteurs:
+						</div>
+						<div class="col-md-4">
+							RABALL Quentin
+						</div>
+						<div class="col-md-4">
+							RICHARD Paul
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							Emails:
+						</div>
+						<div class="col-md-4">
+							qraball@gmail.com
+						</div>
+						<div class="col-md-4">
+							RICHARD Paul
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-info" data-dismiss="modal">Fermer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	  <!-- Fenetre de controle -->
+      <div class="row" id="containerControl">
+	  <div class="container-fluid">
+	  <!-- Menu sur le coté -->
+        <div class="row">
+        <nav class="col-sm-4 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<li class="text-center"><h3>Liste des pièces</h3></li>
+            <li class="active" id="linkCuisine"><a href="#">Cuisine<span class="sr-only">(current)</span></a></li>
+            <li id="linkSalon"><a href="#">Salon</a></li>
+            <li id="linkChambre"><a href="#">Chambre</a></li>
+            <li id="linkSalleDB"><a href="#">Salle de bain</a></li>
+			<li id="linkCouloir"><a href="#">Couloir</a></li>
+          </ul>
+        </nav>
+		
+		<!-- Fenetre Cuisine -->
+		<section class="col-sm-8 main" id="containerCuisine">
+			<div class="row col-lg-12 titre"><h2>Cuisine</h2></div>
+			<div class="row">
+			<!-- Premier onglet déroulant: lumière -->
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#lumiereCuisine" data-parent="#monaccordeon" data-toggle="collapse">Lumières</a> 
+						</h3>
+					</div>
+					<div id="lumiereCuisine" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row">
+								<div class="text-center col-sm-6">
+									<i class="fa fa-lightbulb-o fa-5x" id="ledCuisine1"></i>
+										<br/>
+									<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedCuisine1">Turn On</button>
+								</div>
+								<div class="text-center col-sm-6">
+									<i class="fa fa-lightbulb-o fa-5x" id="ledCuisine2"></i>
+										<br/>
+									<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedCuisine2">Turn On</button>
+								</div>
+							</div>	
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Fin du premier onglet - début du 2ème -->
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#chauffageCuisine" data-parent="#monaccordeon" data-toggle="collapse">Chauffage</a> 
+						</h3>
+					</div>
+					<div id="chauffageCuisine" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#storesCuisine" data-parent="#monaccordeon" data-toggle="collapse">Stores</a> 
+						</h3>
+					</div>
+					<div id="storesCuisine" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#elecMenCuisine" data-parent="#monaccordeon" data-toggle="collapse">Electro-Ménager</a> 
+						</h3>
+					</div>
+					<div id="elecMenCuisine" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>	
+		</section>
+		
+		
+		<!-- Fenetre Salon -->
+		<section class="col-sm-8 main" id="containerSalon" hidden>
+			<div class="row col-lg-12 titre"><h2>Salon</h2></div>
+			<div class="row">
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#lumiereSalon" data-parent="#monaccordeon" data-toggle="collapse">Lumières</a> 
+						</h3>
+					</div>
+					<div id="lumiereSalon" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#chauffageSalon" data-parent="#monaccordeon" data-toggle="collapse">Chauffage</a> 
+						</h3>
+					</div>
+					<div id="chauffageSalon" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#storesSalon" data-parent="#monaccordeon" data-toggle="collapse">Stores</a> 
+						</h3>
+					</div>
+					<div id="storesSalon" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#multimediaSalon" data-parent="#monaccordeon" data-toggle="collapse">Multimedia</a> 
+						</h3>
+					</div>
+					<div id="multimediaSalon" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+		
+		
+		<!-- Fenetre Chambre -->
+		<section class="col-sm-8  main" id="containerChambre" hidden>
+			<div class="row col-lg-12 titre"><h2>Chambre</h2></div>
+			<div class="row">
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#lumiereChambre" data-parent="#monaccordeon" data-toggle="collapse">Lumières</a> 
+						</h3>
+					</div>
+					<div id="lumiereChambre" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#chauffageChambre" data-parent="#monaccordeon" data-toggle="collapse">Chauffage</a> 
+						</h3>
+					</div>
+					<div id="chauffageChambre" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#storesChambre" data-parent="#monaccordeon" data-toggle="collapse">Stores</a> 
+						</h3>
+					</div>
+					<div id="storesChambre" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#reveilChambre" data-parent="#monaccordeon" data-toggle="collapse">Réveil</a> 
+						</h3>
+					</div>
+					<div id="reveilChambre" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#multimediaChambre" data-parent="#monaccordeon" data-toggle="collapse">Multimedia</a> 
+						</h3>
+					</div>
+					<div id="multimediaChambre" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+		
+		
+		<!-- Fenetre Salle de bain -->
+        <section class="col-sm-8  main" id="containerSalleDB" hidden>
+          <div class="row col-lg-12 titre"><h2>Salle de Bain</h2></div>
+			<div class="row">
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#lumiereSalleDB" data-parent="#monaccordeon" data-toggle="collapse">Lumières</a> 
+						</h3>
+					</div>
+					<div id="lumiereSalleDB" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#chauffageSalleDB" data-parent="#monaccordeon" data-toggle="collapse">Chauffage</a> 
+						</h3>
+					</div>
+					<div id="chauffageSalleDB" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#storesSalleDB" data-parent="#monaccordeon" data-toggle="collapse">Stores</a> 
+						</h3>
+					</div>
+					<div id="storesSalleDB" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+        </section>	
+		
+		
+		<!-- Fenetre Couloir -->
+		<section class="col-sm-8  main" id="containerCouloir" hidden>
+          <div class="row col-lg-12 titre"><h2>Couloir</h2></div>
+			<div class="row">
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#lumiereCouloir" data-parent="#monaccordeon" data-toggle="collapse">Lumières</a> 
+						</h3>
+					</div>
+					<div id="lumiereCouloir" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#porteEntree" data-parent="#monaccordeon" data-toggle="collapse">Porte d'entrée</a> 
+						</h3>
+					</div>
+					<div id="porteEntree" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+        </section>
+      </div>
+    </div>
+       </div>
+	   
+	   
+	<!-- Fenetre de configuration - doit permettre un reconfiguration à la volée -->
+      <div class="row" id="containerConfig" hidden>
+        <div class="col-lg-12">
+          <p class="text-center">
+            <i class="fa fa-cog jumbotron-icon" id="motor"></i>
+            <br/>
+            <button type="button" class="btn btn-lg" id="btnToggleMotor">Turn On</button>
+          </p>
+        </div>
+      </div>
+	  
+	  
+	<!-- Fenêtre d'essai - A utiliser pour tester les trucs - contient des morceaux de codes pratiques-->  
+	<div class="row" id="containerTryPage" hidden>
+	  <header class="row">
+        <div class="col-lg-12">
+          Entete
+        </div>
+      </header>
+      <div class="row">
+         <nav class="col-sm-2 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Entrées Analogiques <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Sorties Analogiques</a></li>
+            <li><a href="#">Entrées Numériques</a></li>
+            <li><a href="#">Sorties Numériques</a></li>
+          </ul>
+        </nav>
+		
+        <section class="col-sm-10">
+          <h1>Section</h1>
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="row">
+                <article class="col-sm-6">
+                  Article
+                </article>
+                <article class="col-sm-6">
+                  Article
+                </article>
+                <article class="col-sm-6">
+                  Article
+                </article>
+                <article class="col-sm-6">
+                  Article
+                </article>
+                <article class="col-sm-6">
+                  Article
+                </article>
+                <article class="col-sm-6">
+                  Article
+                </article>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="row">
+                <aside>
+                  Aside 1
+                </aside>
+                <aside>
+                  Aside 2
+                </aside>
+              </div>
+            </div>
+          </div>
+		  
+		  <div id="monaccordeon" class="panel-group col-lg-4">
+			<h3>Type de contrôle</h3>
+			<div class="panel panel-primary">
+				<div class="panel-heading"> 
+					<h3 class="panel-title">
+						<a href="#item1" data-parent="#monaccordeon" data-toggle="collapse"> Cuisine </a> 
+					</h3>
+				</div>
+				<div id="item1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<p class="text-center">
+							<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+							<br/>
+							<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		   </div>
+		  
+        </section>
+		
+        
+      </div>
+      <footer class="row">
+        <div class="col-lg-12">
+          Pied de page
+        </div>
+      </footer>
+    </div>
+	  
+	  <!-- Fenêtre admin, doit contenir les résultats des entrées / sorties dans un tableau -->
+	  <div id="containerAdmin" hidden>
+        <div class="container-fluid">
+        <div class="row">
+		<!-- Sous menu Admin -->
+        <nav class="col-sm-4 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<li class="text-center"><h3>Entrées Sorties</h3></li>
+            <li class="active" id="linkAnalogIn"><a href="#">Entrées Analogiques <span class="sr-only">(current)</span></a></li>
+            <li id="linkAnalogOut"><a href="#">Sorties Analogiques</a></li>
+            <li id="linkNumericIn"><a href="#">Entrées Numériques</a></li>
+            <li id="linkNumericOut"><a href="#">Sorties Numériques</a></li>
+          </ul>
+        </nav>
+		<!-- >Premier sous-menu : entrées analogiques -->
+		<section class="col-sm-8 main titre" id="containerAnalogIn">
+			<h1>Entrées Analogiques</h1>
+			<div class="col-md-2 titre">
+				<h4>From Analog 0</h4>
+				<textarea class="form-control" style="background:#222; color:#00ff00;" rows="8" id="inData"></textarea>
+			</div>
+			<div class="col-md-2 titre">
+				<h4>From Analog 1</h4>
+				<textarea class="form-control" style="background:#222; color:#00ff00;" rows="8" id="inData"></textarea>
+			</div>
+			<div class="col-md-2 titre">
+				<h4>From Analog 2</h4>
+				<textarea class="form-control" style="background:#222; color:#00ff00;" rows="8" id="inData"></textarea>
+			</div>
+			<div class="col-md-2 titre">
+				<h4>From Analog 3</h4>
+				<textarea class="form-control" style="background:#222; color:#00ff00;" rows="8" id="inData"></textarea>
+			</div>
+		</section>
+		
+		<!-- 2eme sous menu -->
+		<section class="col-sm-8 titre main" id="containerNumericIn" hidden>
+			<h1>Entrées Numériques</h1>
+		</section>
+		
+		<!-- 3ème sous menu -->
+		<section class="col-sm-8 titre main" id="containerNumericOut" hidden>
+			<h1>Sorties Numériques</h1>
+		</section>
+		
+		<!-- 4eme sous menu, avec exemple de tableau et de mise en page -->
+        <section class="col-sm-8 main" id="containerAnalogOut" hidden>
+			<div class="row titre">
+          <h1>Sorties Analogiques</h1>
+			</div>
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Section title</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+                <tr>
+                  <td>1,007</td>
+                  <td>sagittis</td>
+                  <td>ipsum</td>
+                  <td>Praesent</td>
+                  <td>mauris</td>
+                </tr>
+                <tr>
+                  <td>1,008</td>
+                  <td>Fusce</td>
+                  <td>nec</td>
+                  <td>tellus</td>
+                  <td>sed</td>
+                </tr>
+                <tr>
+                  <td>1,009</td>
+                  <td>augue</td>
+                  <td>semper</td>
+                  <td>porta</td>
+                  <td>Mauris</td>
+                </tr>
+                <tr>
+                  <td>1,010</td>
+                  <td>massa</td>
+                  <td>Vestibulum</td>
+                  <td>lacinia</td>
+                  <td>arcu</td>
+                </tr>
+                <tr>
+                  <td>1,011</td>
+                  <td>eget</td>
+                  <td>nulla</td>
+                  <td>Class</td>
+                  <td>aptent</td>
+                </tr>
+                <tr>
+                  <td>1,012</td>
+                  <td>taciti</td>
+                  <td>sociosqu</td>
+                  <td>ad</td>
+                  <td>litora</td>
+                </tr>
+                <tr>
+                  <td>1,013</td>
+                  <td>torquent</td>
+                  <td>per</td>
+                  <td>conubia</td>
+                  <td>nostra</td>
+                </tr>
+                <tr>
+                  <td>1,014</td>
+                  <td>per</td>
+                  <td>inceptos</td>
+                  <td>himenaeos</td>
+                  <td>Curabitur</td>
+                </tr>
+                <tr>
+                  <td>1,015</td>
+                  <td>sodales</td>
+                  <td>ligula</td>
+                  <td>in</td>
+                  <td>libero</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>	
+      </div>
+    </div>
+	</div>
+	</div>
+      
+	<!-- Scripts à executer - Toujours les mettres à la fin -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/interface.js"></script>
+	<script type="text/javascript" src="js/driver.js"></script>
+	<script>console.log("acces aux js")</script>
+  </body>
+</html>
