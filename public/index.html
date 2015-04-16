@@ -34,13 +34,13 @@
           <div class="collapse navbar-collapse" id="navegationBar">
             <ul class="nav navbar-nav">
               <li  id="linkControl" class="active">
-                <a href="#" ><i class="fa fa-sliders"></i> Contrôle</a>
+                <a href="#control" ><i class="fa fa-sliders"></i> Contrôle</a>
               </li>
               <li  id="linkConfig">
-                <a href="#" ><i class="fa fa-cogs"></i> Configuration</a>
+                <a href="#config" ><i class="fa fa-cogs"></i> Configuration</a>
               </li>
 			  <li  id="linkAdmin">
-                <a href="#" ><i class="fa fa-tasks"></i> Admin</a>
+                <a href="#admin" ><i class="fa fa-tasks"></i> Admin</a>
               </li>
 			  <li  id="linkTryPage">
                 <a href="#" ><i class="fa fa-flag"></i> TryPage</a>
@@ -48,7 +48,7 @@
 			  
 			  <!-- Menu déroulant d'aide -->
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Aide <b class="caret"></b></a>
+                <a href="#help" class="dropdown-toggle" data-toggle="dropdown">Aide <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li>
                     <a href="remote.html"><i class="fa fa-mobile"></i> Mode Telecomande</a>
@@ -71,24 +71,6 @@
                 </ul>
               </li>
             </ul>
-
-			
-			
-			
-            <!-- Serial Ports button - Doit permettre la sélection du port de communication avec l'arduino -->
-			<!-- Pas obligatoire, vu que le port sera fixe i.e. port:"COM3" -->
-			<!--
-            <div class="btn-group navbar-right portsButton">
-              <button type="button" class="btn btn-default" id="labelPort">Ports</button>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu" role="menu" id="serialPorts">
-                <li><a href="#">port</a></li>
-              </ul>
-            </div>
-			-->
           </div>
         </div>
       </nav>
@@ -157,7 +139,7 @@
             <li id="linkSalon"><a href="#">Salon</a></li>
             <li id="linkChambre"><a href="#">Chambre</a></li>
             <li id="linkSalleDB"><a href="#">Salle de bain</a></li>
-			<li id="linkCouloir"><a href="#">Couloir</a></li>
+	    <li id="linkCouloir"><a href="#">Couloir</a></li>
           </ul>
         </nav>
 		
@@ -203,9 +185,9 @@
 					<div id="chauffageCuisine" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-fire fa-5x" id="chauffageCuisine"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleChauffageCuisine">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -221,9 +203,9 @@
 					<div id="storesCuisine" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-sun-o fa-5x" id="storesCuisine"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleStoresCuisine">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -239,9 +221,9 @@
 					<div id="elecMenCuisine" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-coffee fa-5x" id="elecMenCuisine"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleElecMenCuisine">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -265,9 +247,9 @@
 					<div id="lumiereSalon" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-lightbulb-o fa-5x" id="ledSalon"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedSalon">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -283,9 +265,9 @@
 					<div id="chauffageSalon" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-fire fa-5x" id="chauffageSalon"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleChauffageSalon">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -301,9 +283,9 @@
 					<div id="storesSalon" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-sun-o" id="storesSalon"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleStoresSalon">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -319,9 +301,9 @@
 					<div id="multimediaSalon" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-music fa-5x" id="musiqueSalon"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleMusiqueSalon">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -345,9 +327,9 @@
 					<div id="lumiereChambre" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-lightbulb-o fa-5x" id="ledChambre"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedChambre">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -363,9 +345,9 @@
 					<div id="chauffageChambre" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-fire fa-5x" id="chauffageChambre"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleChauffageChambre">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -381,9 +363,9 @@
 					<div id="storesChambre" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-sun-o fa-5x" id="storesChambres"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleStoresChambres">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -399,9 +381,9 @@
 					<div id="reveilChambre" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-bell-o fa-5x" id="reveilChambre"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleReveilChambre">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -417,9 +399,9 @@
 					<div id="multimediaChambre" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-music fa-5x" id="musiqueChambre"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleMusiqueChambre">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -443,9 +425,9 @@
 					<div id="lumiereSalleDB" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-lightbulb-o fa-5x" id="ledSalleDB"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedSalleDB">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -461,9 +443,9 @@
 					<div id="chauffageSalleDB" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-fire fa-5x" id="chauffageSalleDB"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleChauffageSalleDB">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -479,9 +461,27 @@
 					<div id="storesSalleDB" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-sun-o fa-5x" id="storesSalleDB"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleStoresSalleDB">Turn On</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"> 
+						<h3 class="panel-title">
+							<a href="#aerationSalleDB" data-parent="#monaccordeon" data-toggle="collapse">Stores</a> 
+						</h3>
+					</div>
+					<div id="aerationSalleDB" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p class="text-center">
+								<i class="fa fa-leaf fa-5x" id="aerationSalleDB"></i>
+									<br/>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleAerationSalleDB">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -505,9 +505,9 @@
 					<div id="lumiereCouloir" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-lightbulb-o fa-5x" id="ledCouloir"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLedCouloir">Turn On</button>
 							</p>
 						</div>
 					</div>
@@ -523,9 +523,9 @@
 					<div id="porteEntree" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p class="text-center">
-								<i class="fa fa-lightbulb-o jumbotron-icon" id="led"></i>
+								<i class="fa fa-lock fa-5x" id="lockDoor"></i>
 									<br/>
-								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLed">Turn On</button>
+								<button type="button" class="btn btn-lg btn-primary" id="btnToggleLockDoor">Lock In</button>
 							</p>
 						</div>
 					</div>
