@@ -1,15 +1,24 @@
 {
   "name": "DomoPi",
   "description": "Domotic App with javascript, node.js & johnny-five",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "app.js",
   "keywords": ["domotics", "home automation"],
   "author": {
     "name": "RABALL Quentin & RICHARD Paul",
     "email": "qraball@gmail.com",
-    "url": ""
+    "url": "https://github.com/raballito/DomoPiJS/tree/master/public"
   },
   "homepage": "http://www.cpnv.ch/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/raballito/DomoPiJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/raballito/DomoPiJS/issues"
+  },
+  
+ 
   
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -17,11 +26,17 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "jade": "~1.9.2",
+	"express-session":"*",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
 	"socket.io":"*",
 	"johnny-five":"*",
-	"omxcontrol":"*"
+	"omxcontrol":"*",
+	"mongoose":"^3.8.22",
+	"passport-local":"^1.0.0",
+	"passport-local-mongoose":"^1.0.0",
+	"should":"*",
+	"connect-flash":"*"
   },
   "scripts": {
     "start": "node main"

@@ -1,5 +1,5 @@
 console.log("Acces aux comportements");
-alert('Cette fenetre doit finir par se transformer en login - surement changer le système d alerte');
+//alert('Cette fenetre doit finir par se transformer en login - surement changer le système d alerte');
 
 
 
@@ -8,11 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
  
 
   // Liens du menu principal - Permet de changer la partie principale
+  
+   
+   
   //Au clique sur Controle
   $('#linkControl').click(function(){
     $('#containerConfig').hide();
 	$('#containerAdmin').hide();
 	$('#containerTryPage').hide();
+	$('#containerAccueil').hide();
     $('#linkConfig').removeClass('active');
 	$('#linkAdmin').removeClass('active');
 	$('#linkTryPage').removeClass('active');
@@ -25,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#containerControl').hide();
 	$('#containerAdmin').hide();
 	$('#containerTryPage').hide();
+	$('#containerAccueil').hide();
     $('#linkControl').removeClass('active');
 	$('#linkAdmin').removeClass('active');
 	$('#linkTryPage').removeClass('active');
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#containerControl').hide();
 	$('#containerAdmin').hide();
 	$('#containerConfig').hide();
+	$('#containerAccueil').hide();
     $('#linkControl').removeClass('active');
 	$('#linkAdmin').removeClass('active');
 	$('#linkConfig').removeClass('active');
@@ -49,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#containerConfig').hide();
 	$('#containerControl').hide();
 	$('#containerTryPage').hide();
+	$('#containerAccueil').hide();
     $('#linkConfig').removeClass('active');
 	$('#linkControl').removeClass('active');
 	$('#linkTryPage').removeClass('active');

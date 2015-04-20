@@ -32,8 +32,37 @@
             </a>
           </div>
           <div class="collapse navbar-collapse" id="navegationBar">
+			
+			<div id="unlogged" hidden>
+			<ul class="nav navbar-nav">
+				<li  id="linkLogIn">
+					<a href="/login" ><i class="fa fa-sign-in"></i> Login</a>
+				</li>
+				<!-- Menu déroulant d'aide -->
+              <li class="dropdown">
+                <a href="#help" class="dropdown-toggle" data-toggle="dropdown">Aide <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+				  <li>
+                    <a href="https://github.com/raballito/DomoPiJS/blob/master/README.md"><i class="fa fa-book"></i> Docs</a>
+					<!-- La partie Docs doit monter la documentation technique de la maison i.e. le manuel -->
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-rocket"></i> Tour</a>
+					<!-- La partie Tour doit pouvoir montrer rapidement ou sont les choses -->
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a data-toggle="modal" href="#about"><i class="fa fa-info-circle"></i> A Propos</a>
+					<!-- Doit permettre de donner les infos à propos de notre groupe -->
+                  </li>
+                </ul>
+              </li>
+			</ul>
+			</div>
+			
+			<div  id="logged">
             <ul class="nav navbar-nav">
-              <li  id="linkControl" class="active">
+              <li  id="linkControl">
                 <a href="#control" ><i class="fa fa-sliders"></i> Contrôle</a>
               </li>
               <li  id="linkConfig">
@@ -51,8 +80,12 @@
                 <a href="#help" class="dropdown-toggle" data-toggle="dropdown">Aide <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="remote.html"><i class="fa fa-mobile"></i> Mode Telecomande</a>
+                    <a href="remote.html"><i class="fa fa-mobile fa-2x"></i>  Mode Telecomande</a>
 					<!-- Lance la page de controle par la telecomande - WIP - les controles ne sont pas au points -->
+                  </li>
+				  <li>
+                    <a href="/register"><i class="fa fa-user-plus"></i> Ajouter Nouvel Utilisateur</a>
+					<!-- Lance la page d'enregistrement -->
                   </li>
 				  <li class="divider"></li>
 				  <li>
@@ -71,12 +104,18 @@
                 </ul>
               </li>
             </ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li id="linkLogOut">
+					<a href="/logout" ><i class="fa fa-sign-out"></i> Logout</a>
+				</li>
+			</ul>
+			</div>
           </div>
         </div>
       </nav>
     </navigation>
 
-	<!-- Fenêtre principale -->
+	<!-- Fenêtre principale -->	
 	<!-- Liste de tous les onglets principaux -->
     <div class="container col-lg-12" id="main">
 	<!-- Page de "Aide/A Propos" -->
@@ -127,8 +166,18 @@
 		</div>
 	</div>
 	
+	<!-- Fenetre acceuil -->
+      <div class="row" id="containerAccueil">
+        <div class="col-md-12 titre">
+          <div class="row center-block text-center">
+            <h1>DomoPiJS - Acceuil</h1>
+			
+          </div>
+		</div>
+	  </div>
+	
 	  <!-- Fenetre de controle -->
-      <div class="row" id="containerControl">
+      <div class="row" id="containerControl" hidden>
 	  <div class="container-fluid">
 	  <!-- Menu sur le coté -->
         <div class="row">

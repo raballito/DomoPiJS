@@ -2,18 +2,11 @@
 //Dépendances du back-end
 var express = require('express');
 var path = require('path');
-var session = require('express-session');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
-var routes = require('./public/routes/routes');
-var users = require('./public/routes/users');
 
 
 var app = express();
@@ -25,11 +18,9 @@ var omx = require('omxcontrol');
 
 //ici vient le reste des dépendances y compris les liens vers les autres JS "nodeux"
 
-//ici vient la procedure de login
-
 
 // view engine setup
-app.set('views', path.join(__dirname, '/public/views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 80);
 
@@ -39,22 +30,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: true }
-}));
-//Initialisation de Passport pour le login
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(omx());
-
-//routes pour le serveurs dans un fichier externe
-app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -87,29 +66,25 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-// passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
-
-//mongoose connection pour la base de donnée
-mongoose.connect('mongodb://localhost/DomoPiJS', function(){
-	console.log('MongoDB Ready')
+//Routes
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/public/index.html');
 });
 
-//Affichage dans la console que le serveur est prêt, écoutant sur le port défini plus haut
+app.get('/remote', function (req, res) {
+  res.sendfile(__dirname + '/public/remote.html');
+});
+
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
 
 module.exports = app;
 
 //ici vient les commandes
 
-   
+
+
 //Socket.io Server
 io.sockets.on('connection', function (socket) {
 

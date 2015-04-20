@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .container
+    h1.titre Connection
+    p.lead.titre Bienvenue sur le projet DomoPi - Veuillez vous logger.
+    br
+    form.center-block(role='form', action="/login",method="post", style='max-width: 300px;')
+      .form-group
+          input.form-control(type='text', name="username", placeholder='Enter Username')
+      .form-group
+        input.form-control(type='password', name="password", placeholder='Password')
+      button.btn.btn-default(type='submit') Submit
+      &nbsp;
+      a(href='/')
+        button.btn.btn-primary(type="button") Cancel
+      br
+      h4.titre= info
