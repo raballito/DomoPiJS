@@ -62,12 +62,27 @@ Une fois l'upload réussi, l'Arduino peut être débranché de l'ordinateur et �
 
 ## Installer le Projet DomoPiJS:
 
-- Commencer par télécharger l'ensemble du projet en utilisant la commande suivante
+- Commencer par télécharger et installer l'ensemble du projet en utilisant les commandes suivantes
 
 ``` bash
 git clone git://github.com/raballito/DomoPiJS.git && cd DomoPiJS
 
 npm install
+
+
+```
+
+- Installer la base de donnée MongoDB
+
+``` bash
+npm install -g mongodb
+
+
+```
+- Dans un nouveau terminal, lancer la base de donnée avant chaques lancements de l'application DomoPiJS
+
+``` bash
+sudo mongod
 
 
 ```
