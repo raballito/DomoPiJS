@@ -1,13 +1,12 @@
 var express = require('express');
 var passport = require('passport');
-var flash = require('connect-flash');
-var Account = require('../../models/account');
+var Account = require('../models/account');
 var router = express.Router();
 
-/*router.get('/', function (req, res) {
+router.get('/', function (req, res) {
   res.render('index', {user: req.user});
 });
-*/
+
 
 /*router.get('/index', function (req, res) {
   var cwd = process.cwd();
@@ -29,7 +28,7 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res) {
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
-          return res.render("register", {info: "Sorry. That username already exists. Try again."});
+          return res.render("register", {info: "Désolé, le nom d'utilisateur désiré est déjà pris. Veuillez essayer encore"});
         }
 
         passport.authenticate('local')(req, res, function () {
@@ -54,7 +53,7 @@ router.post('/login', function(req, res, next) {
     if (err) { return next(err) }
     if (!user) {
       console.log('identification problem');
-      return res.render('login', {info: "Sorry. That username/password is wrong. Try again."})
+      return res.render('login', {info: "Désolé, le nom d'utilisateur/mot de passe est faux. Veuillez essayer encore"})
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
@@ -64,7 +63,7 @@ router.post('/login', function(req, res, next) {
 });
 
 
-router.get('/account', ensureAuthenticated, function(req, res){
+router.get('/account', function(req, res){
   res.render('account', { user: req.user });
 });
 

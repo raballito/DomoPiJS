@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
 var routes = require('./public/routes/routes');
 var users = require('./public/routes/users');
@@ -50,10 +49,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//Plugin de controle pour OMXPlayer - lecteur video du RPi - WIP
 app.use(omx());
 
-//routes pour le serveurs dans un fichier externe
+//routes pour le serveurs dans un fichier externe - A retravailler car l'appel '/' renvoie de la merde
 app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -89,17 +88,17 @@ app.use(function(err, req, res, next) {
 
 
 // passport config
-var Account = require('./models/account');
+var Account = require('./public/models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-//mongoose connection pour la base de donnée
+//mongoose - connection a la base de donnée de DomoPiJS
 mongoose.connect('mongodb://localhost/DomoPiJS', function(){
-	console.log('MongoDB Ready')
+	console.log('Connection to MongoDB_local Ready')
 });
 
-//Affichage dans la console que le serveur est prêt, écoutant sur le port défini plus haut
+//Affichage dans la console que le serveur est prêt, écoutant sur le port défini plus haut, ligne 34
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
@@ -107,7 +106,7 @@ server.listen(app.get('port'), function(){
 
 module.exports = app;
 
-//ici vient les commandes
+//ici doit venir les commandes (ou fichiers) gérant les fonctions johnny-five
 
    
 //Socket.io Server
