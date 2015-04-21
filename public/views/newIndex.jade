@@ -1,0 +1,954 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    |     
+    title DomoPi - Home Automation
+    |     
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    |     
+    link(rel='shortcut icon', href='/favicon.ico')
+    |     
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    |     
+    link(rel='stylesheet', href='css/font-awesome.min.css')
+    |     
+    link(rel='stylesheet', href='css/style.css')
+    // Bootstrap
+    // Optional theme
+    link(rel='stylesheet', href='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')
+  |   
+  body
+    // Menu principal - en haut!
+    navigation#menu
+      nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+        .container-fluid
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navegationBar')
+              span.sr-only Change navigation
+              |               
+              span.icon-bar
+              |               
+              span.icon-bar
+              |               
+              span.icon-bar
+            |             
+            a.navbar-brand
+              img(src='img/nodebot.png')
+              |  DomoPi - Home Automation
+          |           
+          #navegationBar.collapse.navbar-collapse
+            if(!user)
+              ul.nav.navbar-nav
+                li#linkLogIn
+                  a(href='/login')
+                    i.fa.fa-sign-in
+                    |  Login
+                // Menu déroulant d'aide
+                li.dropdown
+                  a.dropdown-toggle(href='#help', data-toggle='dropdown')
+                    | Aide 
+                    b.caret
+                  |                 
+                  ul.dropdown-menu
+                    li
+                      a(href='https://github.com/raballito/DomoPiJS/blob/master/README.md')
+                        i.fa.fa-book
+                        |  Docs
+                      // La partie Docs doit monter la documentation technique de la maison i.e. le manuel
+                    |                   
+                    li
+                      a(href='#')
+                        i.fa.fa-rocket
+                        |  Tour
+                      // La partie Tour doit pouvoir montrer rapidement ou sont les choses
+                    |                   
+                    li.divider
+                    |                   
+                    li
+                      a(data-toggle='modal', href='#about')
+                        i.fa.fa-info-circle
+                        |  A Propos
+                      // Doit permettre de donner les infos à propos de notre groupe
+            | &#x9;&#x9;&#x9;
+            | &#x9;&#x9;&#x9;
+
+            if(user)
+              ul.nav.navbar-nav
+                li#linkControl
+                  a(href='#control')
+                    i.fa.fa-sliders
+                    |  Contr&ocirc;le
+                |               
+                li#linkConfig
+                  a(href='#config')
+                    i.fa.fa-cogs
+                    |  Configuration
+                | &#x9;&#x9;&#x9;  
+                li#linkAdmin
+                  a(href='#admin')
+                    i.fa.fa-tasks
+                    |  Admin
+                | &#x9;&#x9;&#x9;  
+                li#linkTryPage
+                  a(href='#')
+                    i.fa.fa-flag
+                    |  TryPage
+                // Menu déroulant d'aide
+                li.dropdown
+                  a.dropdown-toggle(href='#help', data-toggle='dropdown')
+                    | Aide 
+                    b.caret
+                  |                 
+                  ul.dropdown-menu
+                    li
+                      a(href='remote.html')
+                        i.fa.fa-mobile.fa-2x
+                        |   Mode Telecomande
+                      // Lance la page de controle par la telecomande - WIP - les controles ne sont pas au points
+                    | &#x9;&#x9;&#x9;&#x9;  
+                    li
+                      a(href='/register')
+                        i.fa.fa-user-plus
+                        |  Ajouter Nouvel Utilisateur
+                      // Lance la page d'enregistrement
+                    | &#x9;&#x9;&#x9;&#x9;  
+                    li.divider
+                    | &#x9;&#x9;&#x9;&#x9;  
+                    li
+                      a(href='https://github.com/raballito/DomoPiJS/blob/master/README.md')
+                        i.fa.fa-book
+                        |  Docs
+                      // La partie Docs doit monter la documentation technique de la maison i.e. le manuel
+                    |                   
+                    li
+                      a(href='#')
+                        i.fa.fa-rocket
+                        |  Tour
+                      // La partie Tour doit pouvoir montrer rapidement ou sont les choses
+                    |                   
+                    li.divider
+                    |                   
+                    li
+                      a(data-toggle='modal', href='#about')
+                        i.fa.fa-info-circle
+                        |  A Propos
+                      // Doit permettre de donner les infos à propos de notre groupe
+              | &#x9;&#x9;&#x9;
+              ul.nav.navbar-nav.navbar-right
+                li#linkAccount
+                  a(href='#account')
+                    i.fa.fa-user
+                    |  Compte
+                | &#x9;&#x9;&#x9;&#x9;
+                li#linkLogOut
+                  a(href='/logout')
+                    i.fa.fa-sign-out
+                    |  Logout
+                    
+
+    // Fenêtre principale
+    // Liste de tous les onglets principaux
+    #main.container.col-lg-12
+      // Page de "Aide/A Propos"
+      #about.modal
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') x
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              h4.modal-title A Propos
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-body
+              .row
+                .col-md-4
+                  | DomoPi Version 0.0.3
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-4
+                  a.fa.fa-copyright(href='http://www.cpnv.ch', <i='')  CPNV - 2015 
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .row
+                .col-md-4
+                  | Auteurs:
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-4
+                  | RABALL Quentin
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-4
+                  | RICHARD Paul
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .row
+                .col-md-4
+                  | Emails:
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-4
+                  | qraball@gmail.com
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-4
+                  | paulito1409@hotmail.com
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-footer
+              button.btn.btn-info(data-dismiss='modal') Fermer
+
+      // Fenetre acceuil
+      #containerAccueil.row
+        .col-md-12.titre
+          .row.center-block.text-center
+            h1 DomoPiJS - Acceuil
+            
+            .row.center-block.text-center.col-md-12
+                img(src='../img/maison.png')
+            .row.center-block.col-md-12
+             br
+             if (!user)
+              h3.titre Veuillez vous identifier pour prendre le controle de l'UI
+              a(href="/login")
+               button.btn.btn-primary(type="button") Connection
+             
+              a(href="/register")
+               button.btn.btn-primary(type="button") Enregistrement
+             if (user)
+              p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
+              
+      // Fenetre de compte
+      #containerAccount.row(hidden='')
+        .col-md-12.titre
+          .row.center-block
+            if (user)
+              h1 Bienvenue #{user.username}
+              h4 Cette page contiendra les infos importantes concernant l'utilisateur
+            if(!user)
+              h1 Secret!
+             
+      // Fenetre de controle
+      #containerControl.row(hidden='')
+        .container-fluid
+
+          // Menu sur le coté
+          .row
+            nav.col-sm-4.col-md-2.sidebar
+              ul.nav.nav-sidebar
+                li.text-center
+                  h3 Liste des pi&egrave;ces
+                |             
+                li#linkCuisine.active
+                  a(href='#')
+                    | Cuisine
+                    span.sr-only (current)
+                |             
+                li#linkSalon
+                  a(href='#') Salon
+                |             
+                li#linkChambre
+                  a(href='#') Chambre
+                |             
+                li#linkSalleDB
+                  a(href='#') Salle de bain
+                | &#x9;    
+                li#linkCouloir
+                  a(href='#') Couloir
+
+            // Fenetre Cuisine
+            section#containerCuisine.col-sm-8.main
+              .row.col-lg-12.titre
+                h2 Cuisine
+              | &#x9;&#x9;&#x9;
+              .row
+                // Premier onglet déroulant: lumière
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#lumiereCuisine', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #lumiereCuisine.panel-collapse.collapse
+                      .panel-body
+                        .row
+                          .text-center.col-sm-6
+                            i#ledCuisine1.fa.fa-lightbulb-o.fa-5x
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                            br
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                            button#btnToggleLedCuisine1.btn.btn-lg.btn-primary(type='button') Turn On
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          .text-center.col-sm-6
+                            i#ledCuisine2.fa.fa-lightbulb-o.fa-5x
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                            br
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                            button#btnToggleLedCuisine2.btn.btn-lg.btn-primary(type='button') Turn On
+                // Fin du premier onglet - début du 2ème
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#chauffageCuisine', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #chauffageCuisine.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#chauffageCuisine.fa.fa-fire.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleChauffageCuisine.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#storesCuisine', data-parent='#monaccordeon', data-toggle='collapse') Stores
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #storesCuisine.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#storesCuisine.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleStoresCuisine.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#elecMenCuisine', data-parent='#monaccordeon', data-toggle='collapse') Electro-M&eacute;nager
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #elecMenCuisine.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#elecMenCuisine.fa.fa-coffee.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleElecMenCuisine.btn.btn-lg.btn-primary(type='button') Turn On
+
+            // Fenetre Salon
+            section#containerSalon.col-sm-8.main(hidden='')
+              .row.col-lg-12.titre
+                h2 Salon
+              | &#x9;&#x9;&#x9;
+              .row
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#lumiereSalon', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #lumiereSalon.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#ledSalon.fa.fa-lightbulb-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleLedSalon.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#chauffageSalon', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #chauffageSalon.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#chauffageSalon.fa.fa-fire.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleChauffageSalon.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#storesSalon', data-parent='#monaccordeon', data-toggle='collapse') Stores
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #storesSalon.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#storesSalon.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleStoresSalon.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#multimediaSalon', data-parent='#monaccordeon', data-toggle='collapse') Multimedia
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #multimediaSalon.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#musiqueSalon.fa.fa-music.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleMusiqueSalon.btn.btn-lg.btn-primary(type='button') Turn On
+
+            // Fenetre Chambre
+            section#containerChambre.col-sm-8.main(hidden='')
+              .row.col-lg-12.titre
+                h2 Chambre
+              | &#x9;&#x9;&#x9;
+              .row
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#lumiereChambre', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #lumiereChambre.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#ledChambre.fa.fa-lightbulb-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleLedChambre.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#chauffageChambre', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #chauffageChambre.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#chauffageChambre.fa.fa-fire.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleChauffageChambre.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#storesChambre', data-parent='#monaccordeon', data-toggle='collapse') Stores
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #storesChambre.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#storesChambres.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleStoresChambres.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#reveilChambre', data-parent='#monaccordeon', data-toggle='collapse') R&eacute;veil
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #reveilChambre.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#reveilChambre.fa.fa-bell-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleReveilChambre.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#multimediaChambre', data-parent='#monaccordeon', data-toggle='collapse') Multimedia
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #multimediaChambre.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#musiqueChambre.fa.fa-music.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleMusiqueChambre.btn.btn-lg.btn-primary(type='button') Turn On
+
+            // Fenetre Salle de bain
+            section#containerSalleDB.col-sm-8.main(hidden='')
+              .row.col-lg-12.titre
+                h2 Salle de Bain
+              | &#x9;&#x9;&#x9;
+              .row
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#lumiereSalleDB', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #lumiereSalleDB.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#ledSalleDB.fa.fa-lightbulb-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleLedSalleDB.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#chauffageSalleDB', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #chauffageSalleDB.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#chauffageSalleDB.fa.fa-fire.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleChauffageSalleDB.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#storesSalleDB', data-parent='#monaccordeon', data-toggle='collapse') Stores
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #storesSalleDB.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#storesSalleDB.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleStoresSalleDB.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#aerationSalleDB', data-parent='#monaccordeon', data-toggle='collapse') A&eacute;ration
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #aerationSalleDB.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#aerationSalleDB.fa.fa-leaf.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleAerationSalleDB.btn.btn-lg.btn-primary(type='button') Turn On
+
+            // Fenetre Couloir
+            section#containerCouloir.col-sm-8.main(hidden='')
+              .row.col-lg-12.titre
+                h2 Couloir
+              | &#x9;&#x9;&#x9;
+              .row
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#lumiereCouloir', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #lumiereCouloir.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#ledCouloir.fa.fa-lightbulb-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleLedCouloir.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#porteEntree', data-parent='#monaccordeon', data-toggle='collapse') Porte d&apos;entr&eacute;e
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #porteEntree.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#lockDoor.fa.fa-lock.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleLockDoor.btn.btn-lg.btn-primary(type='button') Lock In
+
+      // Fenetre de configuration - doit permettre un reconfiguration à la volée
+      #containerConfig.row(hidden='')
+        .col-lg-12
+          p.text-center
+            i#motor.fa.fa-cog.jumbotron-icon
+            |             
+            br
+            |             
+            button#btnToggleMotor.btn.btn-lg(type='button') Turn On
+
+      // Fenêtre d'essai - A utiliser pour tester les trucs - contient des morceaux de codes pratiques
+      #containerTryPage.row(hidden='')
+        header.row
+          .col-lg-12
+            | Entete
+        |       
+        .row
+          nav.col-sm-2.col-md-2.sidebar
+            ul.nav.nav-sidebar
+              li.active
+                a(href='#')
+                  | Entr&eacute;es Analogiques 
+                  span.sr-only (current)
+              |             
+              li
+                a(href='#') Sorties Analogiques
+              |             
+              li
+                a(href='#') Entr&eacute;es Num&eacute;riques
+              |             
+              li
+                a(href='#') Sorties Num&eacute;riques
+          | &#x9;&#x9;
+          |         
+          section.col-sm-10
+            h1 Section
+            |           
+            .row
+              .col-sm-10
+                .row
+                  article.col-sm-6
+                    | Article
+                  |                 
+                  article.col-sm-6
+                    | Article
+                  |                 
+                  article.col-sm-6
+                    | Article
+                  |                 
+                  article.col-sm-6
+                    | Article
+                  |                 
+                  article.col-sm-6
+                    | Article
+                  |                 
+                  article.col-sm-6
+                    | Article
+              |             
+              .col-sm-2
+                .row
+                  aside
+                    | Aside 1
+                  |                 
+                  aside
+                    | Aside 2
+            | &#x9;&#x9;  
+            | &#x9;&#x9;  
+            #monaccordeon.panel-group.col-lg-4
+              h3 Type de contr&ocirc;le
+              | &#x9;&#x9;&#x9;
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    a(href='#item1', data-parent='#monaccordeon', data-toggle='collapse')  Cuisine 
+                | &#x9;&#x9;&#x9;&#x9;
+                #item1.panel-collapse.collapse
+                  .panel-body
+                    p.text-center
+                      i#led.fa.fa-lightbulb-o.jumbotron-icon
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      br
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button#btnToggleLed.btn.btn-lg.btn-primary(type='button') Turn On
+        |       
+        footer.row
+          .col-lg-12
+            | Pied de page
+
+      // Fenêtre admin, doit contenir les résultats des entrées / sorties dans un tableau
+      #containerAdmin.row(hidden='')
+        .container-fluid
+          .row
+            // Sous menu Admin
+            nav.col-sm-4.col-md-2.sidebar
+              ul.nav.nav-sidebar
+                li.text-center
+                  h3 Entr&eacute;es Sorties
+                |             
+                li#linkAnalogIn.active
+                  a(href='#')
+                    | Entr&eacute;es Analogiques 
+                    span.sr-only (current)
+                |             
+                li#linkAnalogOut
+                  a(href='#') Sorties Analogiques
+                |             
+                li#linkNumericIn
+                  a(href='#') Entr&eacute;es Num&eacute;riques
+                |             
+                li#linkNumericOut
+                  a(href='#') Sorties Num&eacute;riques
+            // Premier sous-menu : entrées analogiques
+            section#containerAnalogIn.col-sm-8.main.titre
+              h1 Entr&eacute;es Analogiques
+              | &#x9;&#x9;&#x9;
+              .col-md-2.titre
+                h4 From Analog 0
+                | &#x9;&#x9;&#x9;&#x9;
+                textarea#inData.form-control(style='background:#222; color:#00ff00;', rows='8')
+              | &#x9;&#x9;&#x9;
+              .col-md-2.titre
+                h4 From Analog 1
+                | &#x9;&#x9;&#x9;&#x9;
+                textarea#inData.form-control(style='background:#222; color:#00ff00;', rows='8')
+              | &#x9;&#x9;&#x9;
+              .col-md-2.titre
+                h4 From Analog 2
+                | &#x9;&#x9;&#x9;&#x9;
+                textarea#inData.form-control(style='background:#222; color:#00ff00;', rows='8')
+              | &#x9;&#x9;&#x9;
+              .col-md-2.titre
+                h4 From Analog 3
+                | &#x9;&#x9;&#x9;&#x9;
+                textarea#inData.form-control(style='background:#222; color:#00ff00;', rows='8')
+            // 2eme sous menu
+            section#containerNumericIn.col-sm-8.titre.main(hidden='')
+              h1 Entr&eacute;es Num&eacute;riques
+            // 3ème sous menu
+            section#containerNumericOut.col-sm-8.titre.main(hidden='')
+              h1 Sorties Num&eacute;riques
+            // 4eme sous menu, avec exemple de tableau et de mise en page
+            section#containerAnalogOut.col-sm-8.main(hidden='')
+              .row.titre
+                h1 Sorties Analogiques
+              |           
+              .row.placeholders
+                .col-xs-6.col-sm-3.placeholder
+                  img.img-responsive(data-src='holder.js/200x200/auto/sky', alt='Generic placeholder thumbnail')
+                  |               
+                  h4 Label
+                  |               
+                  span.text-muted Something else
+                |             
+                .col-xs-6.col-sm-3.placeholder
+                  img.img-responsive(data-src='holder.js/200x200/auto/vine', alt='Generic placeholder thumbnail')
+                  |               
+                  h4 Label
+                  |               
+                  span.text-muted Something else
+                |             
+                .col-xs-6.col-sm-3.placeholder
+                  img.img-responsive(data-src='holder.js/200x200/auto/sky', alt='Generic placeholder thumbnail')
+                  |               
+                  h4 Label
+                  |               
+                  span.text-muted Something else
+                |             
+                .col-xs-6.col-sm-3.placeholder
+                  img.img-responsive(data-src='holder.js/200x200/auto/vine', alt='Generic placeholder thumbnail')
+                  |               
+                  h4 Label
+                  |               
+                  span.text-muted Something else
+              |           
+              h2.sub-header Section title
+              |           
+              .table-responsive
+                table.table.table-striped
+                  thead
+                    tr
+                      th #
+                      |                   
+                      th Header
+                      |                   
+                      th Header
+                      |                   
+                      th Header
+                      |                   
+                      th Header
+                  |               
+                  tbody
+                    tr
+                      td 1,001
+                      |                   
+                      td Lorem
+                      |                   
+                      td ipsum
+                      |                   
+                      td dolor
+                      |                   
+                      td sit
+                    |                 
+                    tr
+                      td 1,002
+                      |                   
+                      td amet
+                      |                   
+                      td consectetur
+                      |                   
+                      td adipiscing
+                      |                   
+                      td elit
+                    |                 
+                    tr
+                      td 1,003
+                      |                   
+                      td Integer
+                      |                   
+                      td nec
+                      |                   
+                      td odio
+                      |                   
+                      td Praesent
+                    |                 
+                    tr
+                      td 1,003
+                      |                   
+                      td libero
+                      |                   
+                      td Sed
+                      |                   
+                      td cursus
+                      |                   
+                      td ante
+                    |                 
+                    tr
+                      td 1,004
+                      |                   
+                      td dapibus
+                      |                   
+                      td diam
+                      |                   
+                      td Sed
+                      |                   
+                      td nisi
+                    |                 
+                    tr
+                      td 1,005
+                      |                   
+                      td Nulla
+                      |                   
+                      td quis
+                      |                   
+                      td sem
+                      |                   
+                      td at
+                    |                 
+                    tr
+                      td 1,006
+                      |                   
+                      td nibh
+                      |                   
+                      td elementum
+                      |                   
+                      td imperdiet
+                      |                   
+                      td Duis
+                    |                 
+                    tr
+                      td 1,007
+                      |                   
+                      td sagittis
+                      |                   
+                      td ipsum
+                      |                   
+                      td Praesent
+                      |                   
+                      td mauris
+                    |                 
+                    tr
+                      td 1,008
+                      |                   
+                      td Fusce
+                      |                   
+                      td nec
+                      |                   
+                      td tellus
+                      |                   
+                      td sed
+                    |                 
+                    tr
+                      td 1,009
+                      |                   
+                      td augue
+                      |                   
+                      td semper
+                      |                   
+                      td porta
+                      |                   
+                      td Mauris
+                    |                 
+                    tr
+                      td 1,010
+                      |                   
+                      td massa
+                      |                   
+                      td Vestibulum
+                      |                   
+                      td lacinia
+                      |                   
+                      td arcu
+                    |                 
+                    tr
+                      td 1,011
+                      |                   
+                      td eget
+                      |                   
+                      td nulla
+                      |                   
+                      td Class
+                      |                   
+                      td aptent
+                    |                 
+                    tr
+                      td 1,012
+                      |                   
+                      td taciti
+                      |                   
+                      td sociosqu
+                      |                   
+                      td ad
+                      |                   
+                      td litora
+                    |                 
+                    tr
+                      td 1,013
+                      |                   
+                      td torquent
+                      |                   
+                      td per
+                      |                   
+                      td conubia
+                      |                   
+                      td nostra
+                    |                 
+                    tr
+                      td 1,014
+                      |                   
+                      td per
+                      |                   
+                      td inceptos
+                      |                   
+                      td himenaeos
+                      |                   
+                      td Curabitur
+                    |                 
+                    tr
+                      td 1,015
+                      |                   
+                      td sodales
+                      |                   
+                      td ligula
+                      |                   
+                      td in
+                      |                   
+                      td libero
+
+    // Scripts à executer - Toujours les mettres à la fin
+    script(type='text/javascript', src='js/jquery.min.js')
+    |     
+    script(type='text/javascript', src='js/bootstrap.min.js')
+    |     
+    script(type='text/javascript', src='js/interface.js')
+    | &#x9;
+    script(type='text/javascript', src='js/driver.js')
+    | &#x9;
+    script.
+      console.log("acces aux js")

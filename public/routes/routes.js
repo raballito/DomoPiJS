@@ -4,21 +4,16 @@ var Account = require('../models/account');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-  res.render('index', {user: req.user});
+  res.render('newIndex', {user: req.user});
 });
 
 
-/*router.get('/index', function (req, res) {
-  var cwd = process.cwd();
-        var indexFile = cwd + "/public/index.html";
-		
-        res.sendfile(indexFile, {user: req.user});
-});*/
+router.get('/index', function (req, res) {
+        res.render('newIndex', {user: req.user});
+});
 
 router.get('/remote', ensureAuthenticated, function (req, res) {
-  var cwd = process.cwd();
-        var indexFile = cwd + "/public/remote.html";
-        res.sendfile(indexFile, {user: req.user});
+        res.sendfile('remote.html', {user: req.user});
 });
 
 router.get('/register', function(req, res) {
@@ -57,7 +52,7 @@ router.post('/login', function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.redirect('/');
+      return res.render('newIndex', { user : req.user });
     });
   })(req, res, next);
 });
@@ -69,7 +64,7 @@ router.get('/account', function(req, res){
 
 router.get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/login');
+    res.render('newIndex', { user: req.user });
 });
 
 

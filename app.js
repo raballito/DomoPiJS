@@ -24,8 +24,6 @@ var omx = require('omxcontrol');
 
 //ici vient le reste des dépendances y compris les liens vers les autres JS "nodeux"
 
-//ici vient la procedure de login
-
 
 // view engine setup
 app.set('views', path.join(__dirname, '/public/views'));
