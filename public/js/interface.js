@@ -9,7 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Liens du menu principal - Permet de changer la partie principale
   
-   
+  //Au clique sur Controle
+  $('#linkAccueil').click(function(){
+    $('#containerConfig').hide();
+	$('#containerAdmin').hide();
+	$('#containerTryPage').hide();
+	$('#containerControl').hide();
+    $('#containerAccount').hide();
+    $('#linkConfig').removeClass('active');
+	$('#linkAdmin').removeClass('active');
+	$('#linkTryPage').removeClass('active');
+    $('#linkAccount').removeClass('active');
+    $('#linkControl').removeClass('active');
+    $('#containerAccueil').show();
+  });
    
   //Au clique sur Controle
   $('#linkControl').click(function(){
