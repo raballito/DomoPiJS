@@ -19,6 +19,8 @@ html
     link(rel='stylesheet', href='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')
   |   
   body
+    //Animation de chargement?!
+    #loader.status.fadeInDown.animated.hidden.fa-spinner.fa-spin
     // Menu principal - en haut!
     navigation#menu
       nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
@@ -58,7 +60,7 @@ html
                       // La partie Docs doit monter la documentation technique de la maison i.e. le manuel
                     |                   
                     li
-                      a(href='#')
+                      a(href='https://www.youtube.com/watch?v=KFyLeB7IJ8U')
                         i.fa.fa-rocket
                         |  Tour
                       // La partie Tour doit pouvoir montrer rapidement ou sont les choses
@@ -122,10 +124,10 @@ html
                       // La partie Docs doit monter la documentation technique de la maison i.e. le manuel
                     |                   
                     li
-                      a(href='#')
+                      a(href='https://www.youtube.com/watch?v=KFyLeB7IJ8U')
                         i.fa.fa-rocket
                         |  Tour
-                      // La partie Tour doit pouvoir montrer rapidement ou sont les choses
+                      // La partie Tour doit pouvoir montrer rapidement ou sont les choses ==> Video Youtube
                     |                   
                     li.divider
                     |                   
@@ -188,6 +190,11 @@ html
                 | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                 .col-md-4
                   | paulito1409@hotmail.com
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  
+              br
+              .row 
+                .col-md-12.text-center
+                  | Meteo fournie par le site http://www.wunderground.com/
             | &#x9;&#x9;&#x9;&#x9;
             .modal-footer
               button.btn.btn-info(data-dismiss='modal') Fermer
@@ -198,16 +205,30 @@ html
           .row.center-block.text-center
             h1 DomoPiJS - Acceuil
             
-            .row.center-block.text-center.col-md-12
-                img(src='../img/maison.png')
+            .row.center-block
+              .col-lg-3
+                .row
+                  aside.col-lg-12
+                    .time-block
+                        h1#horloge.titre
+                        h4#dayDate.titre
+                        br
+                  aside.col-lg-12
+                    .weather-block
+                        ul.weather
+
+                    
+              .center-block.text-center.col-md-6
+                  img(src='../img/maison.png')
             .row.center-block.col-md-12
              br
              if (!user)
               h3.titre Veuillez vous identifier pour prendre le controle de l'UI
               a(href="/login")
                button.btn.btn-primary(type="button") Connection
-             
-              a(href="/register")
+              
+              // ajouter l'instruction  "hidden=''" après la balise a(href='') suivante pour enlever le bouton
+              a(href="/register"  hidden='')
                button.btn.btn-primary(type="button") Enregistrement
              if (user)
               p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
@@ -945,10 +966,26 @@ html
     script(type='text/javascript', src='js/jquery.min.js')
     |     
     script(type='text/javascript', src='js/bootstrap.min.js')
-    |     
+    
+    script(type='text/javascript', src='js/mustache.js')
+    
+    script(type='text/javascript', src='js/jquery-2.0.1.min.js')
+    
     script(type='text/javascript', src='js/interface.js')
     | &#x9;
-    script(type='text/javascript', src='js/driver.js')
-    | &#x9;
+    //le script du driver est a changer, il faut surement le lancer depuis NodeJS
+    //script(type='text/javascript', src='js/driver.js')
+    //| &#x9;
     script.
       console.log("acces aux js")
+      
+    script#weatherTpl(type='text/template')
+      li
+        p.icon {{icon}}
+        p.temp
+            span.low {{low}}
+            |  - 
+            span.high {{high}}
+            | &#x9;
+        p.day {{day}}
+      
