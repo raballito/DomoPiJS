@@ -117,6 +117,7 @@ node app.js
 
 Bien que dans le cadre de la domotique, le système ne soit jamais arrêté, on ne peut exclure la présence de bug pouvant mener à un plantage général du système.
 Dans ce cas, l'accès au serveur peut être compliqué surtout s'il est présent dans les combles d'une maison.
+
 Comme dans notre cas, nous avons prévu ceci comme Preuve de Concept dans le cadre de nos études, et que nous disposons d'une maquette débranchable, il était judicieux d'automatiser le lancement dans l'ordre des différents logiciels.
 
 Voila la procédure (utilisable aussi pour lancer d'autres programmes à l'allumage)
