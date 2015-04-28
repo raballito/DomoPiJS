@@ -36,7 +36,8 @@
 	"passport":"*",
 	"passport-local":"^1.0.0",
 	"passport-local-mongoose":"^1.0.0",
-	"should":"*"
+	"should":"*",
+    "connect-ensure-login":"*"
   },
   "scripts": {
     "start": "node main"
