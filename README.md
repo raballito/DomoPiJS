@@ -11,7 +11,7 @@ Projet basé sur le [Framework Johnny-five](https://github.com/rwaldron/johnny-f
 
 - [Télécharger Raspbian](http://www.raspberrypi.org/downloads)
 - Installer la distribution sur une carte SD. ([Cliquer ici pour plus d'info](http://elinux.org/RPi_Easy_SD_Card_Setup))
-- Une fois la distribution installée et configurée (raspi-config, server ssh, etc... je ne m'arrête pas la-dessus),  installer nodejs et GIT:
+- Une fois la distribution installée et configurée,  installer nodejs et GIT:
 
 ``` bash
 sudo apt-get update
@@ -30,14 +30,7 @@ sudo apt-get install chromium-browser
 
 ```
 
-- Teste le navigateur en mode kiosk avec la commande suivante
-
-``` bash
-chromium --kiosk http://www.google.com
-
-```
-
-- (Work In Progress - WIP) Afin de pouvoir lire des vidéos sur Youtube sur l'écran de contrôle, installer encore youtube-dl
+- (WIP) Afin de pouvoir lire des vidéos sur Youtube sur l'écran de contrôle, installer encore youtube-dl
 
 ``` bash
 sudo apt-get install youtube-dl
@@ -86,15 +79,6 @@ npm install -g mongodb
 
 
 ```
-
-- Initialiser la base de donnée MongoDB
-
-``` bash
-------------- A VENIR ------------------
-
-
-```
-
 - Dans un nouveau terminal, lancer la base de donnée avant chaques lancements de l'application DomoPiJS
 
 ``` bash
@@ -110,19 +94,5 @@ sudo mongod
 ``` bash
 npm start
 node app.js
-
-```
-
-## Automatiser le lancement de l'application à chaques démmarages de la machine
-
-Bien que dans le cadre de la domotique, le système ne soit jamais arrêté, on ne peut exclure la présence de bug pouvant mener à un plantage général du système.
-Dans ce cas, l'accès au serveur peut être compliqué surtout s'il est présent dans les combles d'une maison.
-
-Comme dans notre cas, nous avons prévu ceci comme Preuve de Concept dans le cadre de nos études, et que nous disposons d'une maquette débranchable, il était judicieux d'automatiser le lancement dans l'ordre des différents logiciels.
-
-Voila la procédure (utilisable aussi pour lancer d'autres programmes à l'allumage)
-
-``` bash
-------------- A VENIR ------------------
 
 ```

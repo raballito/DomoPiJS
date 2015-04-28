@@ -10,12 +10,15 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var ensureLoggedIn = require('connect-ensure-login');
+var five=require('johnny-five');
 
 var routes = require('./public/routes/routes');
 var users = require('./public/routes/users');
 
 
 var app = express();
+
 
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
@@ -106,10 +109,71 @@ module.exports = app;
 
 //ici doit venir les commandes (ou fichiers) gérant les fonctions johnny-five
 
+//var johnny = require('./public/js/johnny');
+
+// create the board connected to the port selected - A changer quand on passera sur linux
+
+        
+        var PORT = 'COM3';
+        var boardConnected = false;
+        /*
+        board = new five.Board({port: PORT});
+        var board,ledCuisine1, ledCuisine2;
+
+        // when board is ready
+        board.on('ready', function() {
+          // create Led component connected to the pin 13
+          ledCuisine1 = new five.Led({
+            pin: 13
+          });
+          // create Led component connected to the pin 5
+          ledCuisine2 = new five.Led({
+            pin: 12
+          });
+          // and inject Led and Motor in the Repl of the board
+          board.repl.inject({
+            ledCuisine1: ledCuisine1,
+            ledCuisine2: ledCuisine2,
+          });
+          
+          boardConnected = true;
+          
+        });
+        */
    
 //Socket.io Server
 io.sockets.on('connection', function (socket) {
-
+    
+    if (boardConnected){
+        if(ledCuisine1.isOn){
+            socket.emit('ledCuisine1isOn');
+            console.log("Lumiere deja allumee");
+        };
+    
+    
+        //comportement matériel
+        socket.on("toggleLedCuisine1", function(data){
+            if(ledCuisine1.isOn){
+                console.log('toggleLedCuisine1 recu:extinction');
+                ledCuisine1.off()
+            }
+            else{
+                console.log('toggleLedCuisine1 recu: allumage');
+                ledCuisine1.on(); 
+            }
+        
+        });
+    }
+    else{
+        console.log("WARNING, board disconnected!");
+    };
+    
+    socket.on("test", function(data){
+        console.log("Reception de l'instruction 'test' ");
+    });
+               
+        
+    //comportement a la connection de l'ecran
  socket.on("screen", function(data){
    socket.type = "screen";
    ss = socket;

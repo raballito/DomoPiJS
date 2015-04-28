@@ -59,6 +59,26 @@ padding: 9px;
   color: #FFCC33
 }
 
+.chauffage-on{
+ color:red;
+}
+
+.stores-on{
+ color: yellow;
+}
+
+.elecmen-on{
+  color:brown;
+}
+
+.musique-on{
+  color: grey;
+}
+
+.aeration-on{
+  color: green;
+}
+
 .search{
 padding: 15px;
 }
@@ -77,9 +97,8 @@ padding: 15px;
 .weather{
 	color: rgba(255,255,255,0.8);
 	list-style: none;
-	width: 400px;
-	max-width: 100%;
-    padding-left: 0px;
+	max-width: 90%;
+    padding-left: 10px;
 	
 }
 .weather li{
@@ -116,7 +135,7 @@ padding: 15px;
 .weather li:first-child .temp{
 	font-size: 3em;
 }
-.weather .high{
+.weather .low{
 	opacity: .4;
 }
 .weather .icon{
@@ -124,7 +143,7 @@ padding: 15px;
 }
 
 .time-block{
-	width: 400px;
+    max-width:100%;
 	border-bottom: 2px solid rgba(255,255,255,0.4);
 }
 
