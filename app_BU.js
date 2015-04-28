@@ -1,18 +1,13 @@
+//-----------------------BACKUP FILE-------------------------------
 //Tout ce qui est en anglais vient du générateur automatique
 //Dépendances du back-end
 var express = require('express');
 var path = require('path');
-var session = require('express-session');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 
-var routes = require('./public/routes/routes');
-var users = require('./public/routes/users');
 
 
 var app = express();
@@ -26,7 +21,7 @@ var omx = require('omxcontrol');
 
 
 // view engine setup
-app.set('views', path.join(__dirname, '/public/views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 80);
 
@@ -36,22 +31,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: true }
-}));
-//Initialisation de Passport pour le login
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Plugin de controle pour OMXPlayer - lecteur video du RPi - WIP
-app.use(omx());
 
-//routes pour le serveurs dans un fichier externe - A retravailler car l'appel '/' renvoie de la merde
-app.use('/', routes);
+app.use(omx());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -84,29 +67,25 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-// passport config
-var Account = require('./public/models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
-
-//mongoose - connection a la base de donnée de DomoPiJS
-mongoose.connect('mongodb://localhost/DomoPiJS', function(){
-	console.log('Connection to MongoDB_local Ready')
+//Routes
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/public/index.html');
 });
 
-//Affichage dans la console que le serveur est prêt, écoutant sur le port défini plus haut, ligne 34
+app.get('/remote', function (req, res) {
+  res.sendfile(__dirname + '/public/remote.html');
+});
+
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-
 module.exports = app;
 
-//ici doit venir les commandes (ou fichiers) gérant les fonctions johnny-five
+//ici vient les commandes
 
-   
+
+
 //Socket.io Server
 io.sockets.on('connection', function (socket) {
 

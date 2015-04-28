@@ -12,13 +12,12 @@ router.get('/index', function (req, res) {
         res.render('newIndex', {user: req.user});
 });
 
-router.get('/remote', function (req, res) {
-        res.sendfile('remote.html');
+router.get('/remote', ensureAuthenticated, function (req, res) {
+        res.sendfile('remote.html', {user: req.user});
 });
 
-//A retravailler, la fonction ensureAuthenticated ramène au menu principal
-router.get('/register', ensureAuthenticated, function(req, res) {
-    res.render('register', { user: req.user });
+router.get('/register', function(req, res) {
+    res.render('register', { });
 });
 
 router.post('/register', function(req, res) {

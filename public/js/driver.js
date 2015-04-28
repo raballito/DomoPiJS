@@ -1,49 +1,60 @@
+  console.log("Acces au Driver");
+  // list all avaliable serial ports in the serialports button
+  // user choose the port where Arduino board is connected
+  var html = '';
+  serialPort.list(function (err, ports) {
 
-var socket = io.connect('http://localhost/');
+    ports.forEach(function(p) {
+      var portName = p.comName.toString();
+      html += '<li id="port'+portName+'"><a href="#">'+portName+'</a></li>';
+      // when user select the port
+      $('#serialPorts').on('click', '#port'+portName, p, function(data){
 
-console.log("Chargement de js/driver.js fini")
+        $('#labelPort').removeClass('btn-primary').addClass('btn-default');
+        $('#labelPort').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 
-//Fonction d'initialisation et de passage des éléments allumés
+        // create the board connected to the port selected
+        board = new five.Board({port: portName});
 
-socket.on('ledCuisine1isOn', function(data){
-     $('#ledCuisine1').addClass('led-on');
-     $('#btnToggleLedCuisine1').text('Turn Off');
+        // when board is ready
+        board.on('ready', function() {
+          // create Led component connected to the pin 13
+          led = new five.Led({
+            pin: 13
+          });
+          // create Motor component connected to the pin 5
+          motor = new five.Motor({
+            pin: 5
+          });
+          // and inject Led and Motor in the Repl of the board
+          board.repl.inject({
+            led: led,
+            motor: motor
+          });
+
+          // show serial port name
+          $('#labelPort').text(portName);
+          $('#labelPort').removeClass('btn-default').addClass('btn-primary');
+        });
+
+        // when serial port error
+        board.on('error', function(err){
+          // show error message
+          $('#labelPort').removeClass('btn-primary btn-default').addClass('btn-danger');
+          $('#labelPort').text('Error!');
+          // remove error message and return to normal state
+          setTimout(function(){
+            $('#labelPort').removeClass('btn-danger').addClass('btn-default');
+            $('#labelPort').text('Ports');
+          }, 5000);
+        });
+
+      });
+
+    });
+
+    // show serial ports names
+    $('#serialPorts').html(html);
+
   });
 
-      
-  // Fonction générique permettant de changer l'icone, et d'envoyer un evenement correspondant
-  //A l'appui sur un bouton, on recupère son ID complet, et on l'assigne à une variable
-  $("[id*='btnToggle']").click(function() {
-      var idComplet = $(this).attr('id');
-      //On sépare les divers éléments de l'ID en fonction des majuscules
-      var splitted = idComplet.split(/(?=[A-Z])/);
-      //On assigne l'objet controlé par le bouton dans la variable objet
-      var objet = splitted[2];
-      //On assigne aussi son emplacement a une autre variable = ID de l'icone
-      var objetEmplacement = splitted[2]+splitted[3];
-      //On assigne aussi le mot Toggle devant objetEmplacement pour l'évenement à envoyer
-      var instruction = 'toggle' + objetEmplacement
-      //On assigne une classe utilisée dans le style.css pour la couleur
-      var CssClass = objet.toLowerCase() + "-on";
-      //Création de l'ID cible du bouton
-      var idCible = "#" + objet.toLowerCase() + splitted[3];
-      
-      /*//On affiche la variable dans la console
-      console.log(idComplet);
-      console.log(splitted);
-      console.log(idCible);
-      */
-      
-      //Fonction de changement d'icone
-      if($(idCible).hasClass(CssClass)){
-          $(idCible).removeClass(CssClass);
-          $(this).text('Turn On');
-      }
-      else{
-         $(idCible).addClass(CssClass); 
-         $(this).text('Turn Off');
-      }  
-      socket.emit(instruction);
-      console.log("Envoie de l'instruction " + instruction);      
-});
-  

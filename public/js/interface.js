@@ -1,4 +1,4 @@
-console.log("Chargement de js/interface.js fini");
+console.log("Acces au JS concernant l'interface");
 
 //Initialisation des fonctions démarant au chargement de la page
 $(document).ready(function(){
@@ -19,7 +19,6 @@ function time(){
 auj=new Date();
 if(auj.getMinutes()<10){plusm="0"}else plusm='';
 if(auj.getSeconds()<10){pluss="0"}else pluss='';
-//Concaténage dans la variable "heure"
 heure= + auj.getHours() + ' : ' + plusm + auj.getMinutes() + ' : ' + pluss + auj.getSeconds() + ' </span>';
 //On remplace l'objet "horloge" avec la variable "heure" qui est la ligne du dessus
 document.getElementById('horloge').innerHTML=heure;
@@ -58,8 +57,7 @@ var Loader = {
 };
 
 
-// Fonctions météo - Disponibilité uniquement en anglais... 
-// ------ A AJOUTER: fct permettant de verifier la disponibilité en ligne de l'API et envoyer un message d'erreur sinon
+// Fonctions météo - Disponibilité uniquement en anglais...
   
 //On initialise la variable Weather, et on définit des fonctions permettant de récuppérer la météo
 var Weather = {
@@ -352,11 +350,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkCuisine').click(function(){
 	$('#containerSalon').hide();
 	$('#containerChambre').hide();
-	$('#containerBain').hide();
+	$('#containerSalleDB').hide();
 	$('#containerCouloir').hide();
 	$('#linkSalon').removeClass('active');
 	$('#linkChambre').removeClass('active');
-	$('#linkBain').removeClass('active');
+	$('#linkSalleDB').removeClass('active');
 	$('#linkCouloir').removeClass('active');
 	$('#containerCuisine').show();
 	$('#linkCuisine').addClass('active');
@@ -365,11 +363,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkSalon').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
-	$('#containerBain').hide();
+	$('#containerSalleDB').hide();
 	$('#containerCouloir').hide();
 	$('#linkCuisine').removeClass('active');
 	$('#linkChambre').removeClass('active');
-	$('#linkBain').removeClass('active');
+	$('#linkSalleDB').removeClass('active');
 	$('#linkCouloir').removeClass('active');
 	$('#containerSalon').show();
 	$('#linkSalon').addClass('active');
@@ -378,17 +376,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkChambre').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerSalon').hide();
-	$('#containerBain').hide();
+	$('#containerSalleDB').hide();
 	$('#containerCouloir').hide();
 	$('#linkCuisine').removeClass('active');
 	$('#linkSalon').removeClass('active');
-	$('#linkBain').removeClass('active');
+	$('#linkSalleDB').removeClass('active');
 	$('#linkCouloir').removeClass('active');
 	$('#containerChambre').show();
 	$('#linkChambre').addClass('active');
 	});
 	//Comportement du bouton Salle de bain
-	$('#linkBain').click(function(){
+	$('#linkSalleDB').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
 	$('#containerSalon').hide();
@@ -397,18 +395,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkChambre').removeClass('active');
 	$('#linkSalon').removeClass('active');
 	$('#linkCouloir').removeClass('active');
-	$('#containerBain').show();
-	$('#linkBain').addClass('active');
+	$('#containerSalleDB').show();
+	$('#linkSalleDB').addClass('active');
 	});
 	//Comportement du bouton Couloir
 	$('#linkCouloir').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
-	$('#containerBain').hide();
+	$('#containerSalleDB').hide();
 	$('#containerSalon').hide();
 	$('#linkCuisine').removeClass('active');
 	$('#linkChambre').removeClass('active');
-	$('#linkBain').removeClass('active');
+	$('#linkSalleDB').removeClass('active');
 	$('#linkSalon').removeClass('active');
 	$('#containerCouloir').show();
 	$('#linkCouloir').addClass('active');
@@ -422,36 +420,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fonctions de contrôle JF
   
- /* 
-  // Au clique sur le premier bouton d'allumage de LED cuisine
-  $('#btnToggleLedCuisine1').click(function(){
-    if(ledCuisine1.isOn){
-      ledCuisine1.off();
-      $('#ledCuisine1').removeClass('led-on');
+  // led button - pas au point, car utilise des proriétés propres a Johnny-five
+  $('#btnToggleLed').click(function(){
+    if(led.isOn){
+      led.off();
+      $('#led').removeClass('led-on');
       $(this).removeClass('btn-primary').text('Turn On');
     }
     else{
-      socket.emit('toggleLedCuisine1');
-      ledCuisine1.on();
-      $('#ledCuisine1').addClass('led-on');
+      led.on();
+      $('#led').addClass('led-on');
       $(this).addClass('btn-primary').text('Turn Off');
     }
   });
-  
-  // Au clique sur le deuxieme bouton d'allumage de LED cuisine
-  $('#btnToggleLedCuisine2').click(function(){
-    if(ledCuisine2.isOn){
-      ledCuisine2.off();
-      $('#ledCuisine2').removeClass('led-on');
-      $(this).removeClass('btn-primary').text('Turn On');
-    }
-    else{
-      ledCuisine2.on();
-      $('#ledCuisine2').addClass('led-on');
-      $(this).addClass('btn-primary').text('Turn Off');
-    }
-  });
-
 
   // motor button - idem - tenter de créer une fonction qui en appel a plusieurs endroit différents: sur le html pour le comportement visuel et sur le app.js pour le comportement phyisique avec johnny-five
   $('#btnToggleMotor').click(function(){
@@ -466,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
       $(this).addClass('btn-primary').text('Turn Off');
     }
   });
-*/
+
 });
 
 
