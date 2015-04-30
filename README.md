@@ -10,7 +10,7 @@ Projet basé sur le [Framework Johnny-five](https://github.com/rwaldron/johnny-f
 ## Installation sur le Rasperry Pi
 
 - [Télécharger Raspbian](http://www.raspberrypi.org/downloads)
-- Installer la distribution sur une carte SD. ([Cliquer ici pour plus d'info](http://elinux.org/RPi_Easy_SD_Card_Setup))
+- Installer l'OS sur une carte SD. ([Cliquer ici pour plus d'info](http://elinux.org/RPi_Easy_SD_Card_Setup))
 - Une fois la distribution installée et configurée (raspi-config, server ssh, etc... je ne m'arrête pas la-dessus),  installer nodejs et GIT:
 
 ``` bash
@@ -64,10 +64,15 @@ env
 - Ouvrir le programme Arduino IDE, choisir: File > Examples > Firmata > StandardFirmata
 - Cliquer sur le boutton "Upload" ou "Téléverser" en français dans le texte (... que ce terme est horrible)
 
-Une fois l'upload réussi, l'Arduino peut être débranché de l'ordinateur et être branché au Raspberry Pi
+Une fois l'upload de la librairie réussi, l'Arduino peut être débranché de l'ordinateur et être branché au Raspberry Pi
 
 
-## Installer le Projet DomoPiJS:
+## Installer le Projet DomoPiJS (sous linux):
+
+# Base de donnée
+
+Partie 1: Installation & Configuration
+
 
 - Commencer par télécharger et installer l'ensemble du projet en utilisant les commandes suivantes
 
@@ -78,8 +83,15 @@ npm install
 
 
 ```
+- Installer la base de donnée MongoDB dans le système
+``` bash
+sudo apt-get install mongod-org
 
-- Installer la base de donnée MongoDB
+
+```
+
+
+- Installer la base de donnée MongoDB dans NodeJS
 
 ``` bash
 npm install -g mongodb
@@ -87,21 +99,82 @@ npm install -g mongodb
 
 ```
 
-- Initialiser la base de donnée MongoDB
+- Initialiser la base de donnée MongoDB dans le répertoire par défaut
 
 ``` bash
-------------- A VENIR ------------------
+mkdir -p /data/db
 
 
 ```
 
-- Dans un nouveau terminal, lancer la base de donnée avant chaques lancements de l'application DomoPiJS
+
+Partie 2: Ajouter un administrateur
+
+- Dans un nouveau terminal (ex: CTRL + ALT + F2), lancer la base de donnée afin de pouvoir interagir avec elle
 
 ``` bash
-sudo mongod
+mongod
+
+```
+
+- Lancer l'utilitaire de configuration avec la commande "mongo", puis lancer les commandes suivantes
+
+``` bash
+
+
+use admin
+db.createUser(
+  {
+    user: "admin",
+    pwd: "admin",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+```
+
+- Retourner dans le deuxième terminal, quitter mongoDB avec CTRL + C, et le relancer avec les authorisations
+
+``` bash
+mongod --auth --config /etc/mongodb/mongodb.conf
 
 
 ```
+
+Partie 3: Ajouter un utilisateur standard (... Provisoire ...)
+
+- Relancer "mongo" avec la commande suivante pour se connecter au service avec les droits admin
+
+``` bash
+mongo -u admin -p admin --authenticationDatabase admin
+
+
+```
+
+- Ajouter un utilisateur avec les commandes suivante
+
+``` bash
+use admin
+db.createUser(
+    {
+      user: "DomoPi",
+      pwd: "12345678",
+      roles: [
+         { role: "userAdmin", db: "local" }
+      ]
+    }
+)
+
+```
+
+Partie 4: Authorisation des utilisateurs
+
+
+``` bash
+------------ A VENIR -------------
+
+```
+
 
 ## Lancer le programme DomoPiJS
 
@@ -110,6 +183,16 @@ sudo mongod
 ``` bash
 npm start
 node app.js
+
+```
+
+## Se connecter à l'interface
+
+- Depuis un navigateur récent, taper dans l'adresse IP du Raspberry Pi
+
+
+``` bash
+Procédure pour le trouver sur le réseau A VENIR
 
 ```
 
