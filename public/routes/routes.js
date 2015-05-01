@@ -1,41 +1,24 @@
 var express = require('express');
+var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var Account = require('../models/account');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-  res.render('newIndex', {user: req.user});
+  res.render('newIndex');
 });
 
 
 router.get('/index', function (req, res) {
-        res.render('newIndex', {user: req.user});
+        res.render('newIndex');
 });
 
 router.get('/remote', function (req, res) {
         res.sendfile('remote.html');
 });
 
-//A retravailler, la fonction ensureAuthenticated ramène au menu principal
-router.get('/register', ensureAuthenticated, function(req, res) {
-    res.render('register', { user: req.user });
-});
-
-router.post('/register', function(req, res) {
-    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-          return res.render("register", {info: "Désolé, le nom d'utilisateur désiré est déjà pris. Veuillez essayer encore"});
-        }
-
-        passport.authenticate('local')(req, res, function () {
-            res.redirect('/login');
-        });
-    });
-});
-
-
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+    res.render('login');
 });
 
 // POST /login
@@ -53,15 +36,34 @@ router.post('/login', function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
+      user = req.user;
+      console.log(user.username + " is now connected");
+      res.cookie('user', user, {maxAge: 500});
+      req.session.user = user;
       return res.render('newIndex', { user : req.user });
     });
   })(req, res, next);
 });
 
 
-router.get('/account', function(req, res){
-  res.render('account', { user: req.user });
+
+
+//A garder commentée. Peut etre pratique si l'enregistrement normal ne fonctionne plus
+/*router.get('/register', function(req, res) { 
+    res.render('register');
 });
+
+router.post('/register', function(req, res) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+          return res.render("register", {info: "Désolé, le nom d'utilisateur désiré est déjà pris. Veuillez essayer encore"});
+        }
+
+        return res.render("newIndex", {info: "Nouvel utilisateur ajouté avec succès", user: req.user});
+    });
+});
+
+*/
 
 router.get('/logout', function(req, res) {
     req.logout();

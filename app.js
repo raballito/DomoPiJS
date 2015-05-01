@@ -12,6 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var ensureLoggedIn = require('connect-ensure-login');
 var five=require('johnny-five');
+var Account = require('./public/models/account');
 
 var routes = require('./public/routes/routes');
 var users = require('./public/routes/users');
@@ -95,7 +96,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 //mongoose - connection a la base de donnée de DomoPiJS
-mongoose.connect('mongodb://localhost/DomoPiJS', function(){
+mongoose.connect('mongodb://localhost/local', function(){
 	console.log('Connection to MongoDB_local Ready')
 });
 
@@ -112,7 +113,8 @@ module.exports = app;
 //var johnny = require('./public/js/johnny');
 
 // create the board connected to the port selected - A changer quand on passera sur linux
-
+// Créer ici une fonction avec le module "SerialPort" afin d'énumérer les ports usb
+// de regarder s'il y a une carte, assigner cette valeur a la variable PORT, et activer la partie de dessous
         
         var PORT = 'COM3';
         var boardConnected = false;
@@ -237,4 +239,23 @@ io.sockets.on('connection', function (socket) {
 
  });
 
+ socket.on('register', function(data) {
+     //console.log(data);     
+     var username = data[0];
+     var password = data[1];
+     var info = "Aucun probleme est survenu. ";
+     var message = "L'utilisateur à bien été enregistré";
+     Account.register(new Account({username: username}), password, function(err, account) {
+        if (err) {
+          console.log(err);
+          info = "Une erreur est apparue: ";
+          message = err.message;
+        }
+      
+      socket.emit('newInfo', message);
+      console.log(info + username + " : " + message);
+      
+    });
+});
+ 
 });

@@ -2,17 +2,20 @@ extends layout
 
 block content
   .container
-    h1.titre Nouvel Utilisateur
-    p.lead.titre Veuillez choisir un nom d'utilisateur et un mot de passe.
-    br
-    form.center-block(role='form', action="/register",method="post", style='max-width: 400px;')
-      .form-group
-          input.form-control(type='text', name="username", placeholder='Enter Username')
-      .form-group
-        input.form-control(type='password', name="password", placeholder='Password')
-      button.btn.btn-default(type='submit') Enregistrer
-      &nbsp;
-      a(href='/', { user: req.user })
-        button.btn.btn-primary(type="button") Annuler
+    
+      h1.titre Nouvel Utilisateur
+      p.lead.titre Veuillez choisir un nom d'utilisateur et un mot de passe.
       br
-      h4.titre= info
+      form.center-block(role='form', action="/register",method="post", style='max-width: 400px;')
+        .form-group
+            input.form-control(type='text', name="username", placeholder='Enter Username')
+        .form-group
+          input.form-control(type='password', name="password", placeholder='Password')
+        button.btn.btn-default(type='submit') Enregistrer
+         &nbsp;
+        a(href='/', { user: req.user })
+          button.btn.btn-primary(type="button") Annuler
+        br
+        h4.titre= info
+  
+      

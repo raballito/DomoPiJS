@@ -110,7 +110,7 @@ html
                       // Lance la page de controle par la telecomande - WIP - les controles ne sont pas au points
                     | &#x9;&#x9;&#x9;&#x9;  
                     li
-                      a(href='/register')
+                      a(data-toggle='modal', href='#register')
                         i.fa.fa-user-plus
                         |  Ajouter Nouvel Utilisateur
                       // Lance la page d'enregistrement
@@ -198,7 +198,43 @@ html
             | &#x9;&#x9;&#x9;&#x9;
             .modal-footer
               button.btn.btn-info(data-dismiss='modal') Fermer
-
+   
+       #register.modal
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') x
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              h4.modal-title Ajout d'un nouvel utilisateur
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-body
+              .row
+                .col-md-12.center-block
+                  | Veuillez indiquer un nom d'utilisateur et un mot de passe
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .row.center-block
+                form(role='form', method="post")
+                  .row 
+                    .form-group.col-md-6
+                        input#newUser.form-control(type='text', name="username", placeholder='Enter Username')
+                  .row
+                    .form-group.col-md-6
+                        input#newPassword.form-control(type='password', name="password", placeholder='Password')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .row.center-block
+                .col-md-3
+                    button#btnRegister.btn.btn-default(data-dismiss='modal') Enregistrer 
+                .col-md-3
+                    button.btn.btn-info(data-dismiss='modal') Fermer
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+             
+                
+                
+              
+              
       // Fenetre acceuil
       #containerAccueil.row
         .col-md-12.titre
@@ -220,6 +256,8 @@ html
                     
               .center-block.text-center.col-md-6
                   img(src='../img/maison.png')
+                  br
+                  h4.titre= info
             .row.center-block.col-md-12
              br
              if (!user)
@@ -232,6 +270,8 @@ html
                button.btn.btn-primary(type="button") Enregistrement
              if (user)
               p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
+              br
+              h4#message.titre Vous pouvez prendre le controle
               
       // Fenetre de compte
       #containerAccount.row(hidden='')

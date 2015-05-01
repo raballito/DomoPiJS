@@ -1,7 +1,6 @@
 body {
   margin-top: 68px;
-  background-image: url('../img/background2.png');
-  
+  background-image: url('../img/background2.png')
 }
 
 img {
@@ -97,7 +96,7 @@ padding: 15px;
 .weather{
 	color: rgba(255,255,255,0.8);
 	list-style: none;
-	max-width: 90%;
+	max-width: 420px;
     padding-left: 10px;
 	
 }

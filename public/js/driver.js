@@ -47,3 +47,22 @@ socket.on('ledCuisine1isOn', function(data){
       console.log("Envoie de l'instruction " + instruction);      
 });
   
+  
+  $("[id='btnRegister']").click(function() {
+      //récupérer l'identifiant et le mot de passe
+      var user = $('#newUser').val();
+      console.log(user);
+      var pwd = $('#newPassword').val();
+      console.log(pwd);
+      //les mettre dans un tableau/objet
+      var requeteInfo = [user, pwd];
+      //envoyer l'instruction "register" avec les donnée de l'utilisiateur
+      socket.emit('register', requeteInfo)
+      console.log("Instruction 'register' envoyé avec le data suivant: " + requeteInfo)
+  });
+  
+  socket.on('newInfo', function(data){
+      console.log("Une info vient d'arriver: " + data);
+      $('#message').text(data);
+  })
+      
