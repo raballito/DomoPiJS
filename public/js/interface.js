@@ -1,12 +1,5 @@
 console.log("Chargement de js/interface.js fini");
-
-//Initialisation des fonctions démarant au chargement de la page
-$(document).ready(function(){
-      time(); //heure
-      Weather.init(); //météo
-      });   
-
-
+//Fichier gérant la "cosmétique" su site
 
 //Obtention de l'Heure
 //Initialisation des variable: minutes, secondes et heure.
@@ -44,7 +37,7 @@ today =  days[now.getDay()] + ", " + date + " "  + months[now.getMonth()] + " " 
 //Passage de la date (today) dans la div d'ID "dayDate"
 document.getElementById('dayDate').innerHTML=today;  
 
-//Script anim début (pas fonctionnelle encore - doit aller avec la premiere balise div dans le 'body' du html)
+//Script anim début (pas fonctionnel visiblement... - doit aller avec la premiere balise div dans le 'body' du html)
 var Loader = {
   loader: $('#loader'),
   show: function() {
@@ -59,7 +52,7 @@ var Loader = {
 
 
 // Fonctions météo - Disponibilité uniquement en anglais... 
-// ------ A AJOUTER: fct permettant de verifier la disponibilité en ligne de l'API et envoyer un message d'erreur sinon
+// ------ A AJOUTER: fct permettant de verifier la disponibilité en ligne de l'API et envoyer un message d'erreur sinon - Faire un essai avec "try & catch"
   
 //On initialise la variable Weather, et on définit des fonctions permettant de récuppérer la météo
 var Weather = {
@@ -198,8 +191,12 @@ var Weather = {
 	  }
 };
 
+//Initialisation des fonctions démarant au chargement de la page
+$(document).ready(function(){
+      time(); //heure
+      Weather.init(); //météo
+      });   
 
- 
 
 // initialisation des comportements quand le DOM est pret
 document.addEventListener('DOMContentLoaded', function() {
@@ -361,7 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#containerCuisine').show();
 	$('#linkCuisine').addClass('active');
 	});
-	//Comportement du bouton Salon
+	
+    //Comportement du bouton Salon
 	$('#linkSalon').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
@@ -374,7 +372,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#containerSalon').show();
 	$('#linkSalon').addClass('active');
 	});
-	//Comportement du bouton Chambre
+	
+    //Comportement du bouton Chambre
 	$('#linkChambre').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerSalon').hide();
@@ -387,7 +386,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#containerChambre').show();
 	$('#linkChambre').addClass('active');
 	});
-	//Comportement du bouton Salle de bain
+	
+    //Comportement du bouton Salle de bain
 	$('#linkBain').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
@@ -400,7 +400,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#containerBain').show();
 	$('#linkBain').addClass('active');
 	});
-	//Comportement du bouton Couloir
+	
+    //Comportement du bouton Couloir
 	$('#linkCouloir').click(function(){
 	$('#containerCuisine').hide();
 	$('#containerChambre').hide();
@@ -412,61 +413,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('#linkSalon').removeClass('active');
 	$('#containerCouloir').show();
 	$('#linkCouloir').addClass('active');
-	});
-	
-	
+	});    
+  
   console.log("Fin du chargement des comportements");
-  
-
-
-
-// Fonctions de contrôle JF
-  
- /* 
-  // Au clique sur le premier bouton d'allumage de LED cuisine
-  $('#btnToggleLedCuisine1').click(function(){
-    if(ledCuisine1.isOn){
-      ledCuisine1.off();
-      $('#ledCuisine1').removeClass('led-on');
-      $(this).removeClass('btn-primary').text('Turn On');
-    }
-    else{
-      socket.emit('toggleLedCuisine1');
-      ledCuisine1.on();
-      $('#ledCuisine1').addClass('led-on');
-      $(this).addClass('btn-primary').text('Turn Off');
-    }
-  });
-  
-  // Au clique sur le deuxieme bouton d'allumage de LED cuisine
-  $('#btnToggleLedCuisine2').click(function(){
-    if(ledCuisine2.isOn){
-      ledCuisine2.off();
-      $('#ledCuisine2').removeClass('led-on');
-      $(this).removeClass('btn-primary').text('Turn On');
-    }
-    else{
-      ledCuisine2.on();
-      $('#ledCuisine2').addClass('led-on');
-      $(this).addClass('btn-primary').text('Turn Off');
-    }
-  });
-
-
-  // motor button - idem - tenter de créer une fonction qui en appel a plusieurs endroit différents: sur le html pour le comportement visuel et sur le app.js pour le comportement phyisique avec johnny-five
-  $('#btnToggleMotor').click(function(){
-    if(motor.isOn){
-      motor.stop();
-      $('#motor').removeClass('fa-spin');
-      $(this).removeClass('btn-primary').text('Turn On');
-    }
-    else{
-      motor.start();
-      $('#motor').addClass('fa-spin');
-      $(this).addClass('btn-primary').text('Turn Off');
-    }
-  });
-*/
 });
 
 

@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var ensureLoggedIn = require('connect-ensure-login');
 var five=require('johnny-five');
 var Account = require('./public/models/account');
 
@@ -108,7 +107,10 @@ server.listen(app.get('port'), function(){
 
 module.exports = app;
 
+// ----------- OK JUSQUE ICI ------------ Rien a retravailler, excepté peut-être pour ajouter les cookies
+
 //ici doit venir les commandes (ou fichiers) gérant les fonctions johnny-five
+//ou les constructeurs!!!
 
 //var johnny = require('./public/js/johnny');
 
@@ -116,54 +118,134 @@ module.exports = app;
 // Créer ici une fonction avec le module "SerialPort" afin d'énumérer les ports usb
 // de regarder s'il y a une carte, assigner cette valeur a la variable PORT, et activer la partie de dessous
         
+        
+        //Initialisation des variables
         var PORT = 'COM3';
         var boardConnected = false;
-        /*
-        board = new five.Board({port: PORT});
-        var board,ledCuisine1, ledCuisine2;
+        
+        var board = new five.Board({port: PORT});
+        
+        // ------- A RETRAVAILLER ------- initialiser les ports au moyen d'un constructeur 
+        //afin de mettre les pin dans un ordre connu par une fonction. Devrait permettre de
+        //générer des nom dynamiques en fonction des données du constructeur
+        //Enummération des Pins utilisées par les leds supplém.
+        var ledPins = [13, 12, 11, 10];
+        var ioState = [];
+        var leds = [];
+        var board,ledCuisine1, ledCuisine2, ledChambre, ledSalon;
+        
+        
+        //Fonction test des IO
+          function testIO(){
+            var etat = [];
+            for (var i = 0; i < leds.length; i++){
+                led = leds[i];
+                if(leds[i].isOn){
+                    //console.log("IO " + i + " is ON");
+                    etat[i] = 1;
+                }
+                else {
+                    //console.log("IO " + i + " is OFF");
+                    etat[i] = 0;
+                }
+            }
+            ioState = etat;
+            return etat;
+          };          
+                    
+        
 
         // when board is ready
         board.on('ready', function() {
-          // create Led component connected to the pin 13
-          ledCuisine1 = new five.Led({
-            pin: 13
-          });
-          // create Led component connected to the pin 5
-          ledCuisine2 = new five.Led({
-            pin: 12
-          });
-          // and inject Led and Motor in the Repl of the board
-          board.repl.inject({
-            ledCuisine1: ledCuisine1,
-            ledCuisine2: ledCuisine2,
-          });
+        
+        //on donne un array en entrée (ledPins) ==> leds est un array
+        leds = new five.Leds(ledPins);    
           
+          // ------ RETRAVAILLER ICI ------- ya surement moyen de faire une boucle "for" afin d'initialiser avec un nom tiré d'un constructeur
+          // creer la led, attachée a l'INDEX correspondant dans l'array de LEDPINS
+          ledCuisine1 = leds[0]; // = pin 13
+          // create Led component connected to the pin 12
+          ledCuisine2 = leds[1];
+          ledSalon = leds[2];
+          ledChambre = leds[3];
+          
+          
+          
+          //Permet de nommer les leds utilisées en fonction de leur place dans l'array ioState
+          //Permet d'activer les leds par la console (Non obligatoire?!)
+          board.repl.inject({
+
+            ledCuisine1: ledCuisine1,
+            ledCuisine2: ledCuisine2,  
+            ledChambre: ledChambre,
+            leds: leds,
+          });
           boardConnected = true;
           
         });
-        */
-   
-//Socket.io Server
+        
+        
+//Socket.io Server - A la connexion
 io.sockets.on('connection', function (socket) {
     
+    //A chaques connexion, relancer la fonction de test des io
+    testIO();
+    
+    
+    //Si la carte est connectée
     if (boardConnected){
-        if(ledCuisine1.isOn){
-            socket.emit('ledCuisine1isOn');
-            console.log("Lumiere deja allumee");
-        };
+        console.log("People Connected with Board Ready, proceeding...");
+        console.log("IO State: " + ioState);
+        //Initialisation et passage des PINS allumés a la page HTML
+        socket.emit('alreadyOn', ioState);
     
-    
-        //comportement matériel
-        socket.on("toggleLedCuisine1", function(data){
-            if(ledCuisine1.isOn){
-                console.log('toggleLedCuisine1 recu:extinction');
-                ledCuisine1.off()
-            }
-            else{
-                console.log('toggleLedCuisine1 recu: allumage');
-                ledCuisine1.on(); 
-            }
+        //comportement au clique sur un bouton - Faire un case pour chaques appareil.
+        socket.on("toggleEquipement", function(data){                
+            console.log("Reception de l'instruction Toggle: " + data)
+            switch (data){
+                case "ledCuisine1":
+                    ledCuisine1.toggle();
+                    break;
+                case "ledCuisine2":
+                    ledCuisine2.toggle();
+                    break;
+                case "ledSalon":
+                    ledSalon.toggle();
+                    break;
+                case "ledChambre":
+                    ledChambre.toggle();
+                    break;
+                    
+                default:
+                    console.log("Probleme: Instruction inconnue: "+ data);
+            }           
+        });
         
+        //Evenement "updateSlider", permet d'activer le PWM pour les leds
+        socket.on('updateSlider', function(data){
+            //Définition des variables utiles
+            var objet = data[0];
+            var emplacement = data[1];
+            var amount = data[2];
+            console.log(data);
+            //Comportement en fonction de l'objet et du lieu
+            switch (emplacement){
+                        case "Cuisine1":
+                            ledCuisine1.brightness(amount);
+                            break;
+                        case "Cuisine2":
+                            ledCuisine2.brightness(amount);
+                            break;
+                        case "Salon":
+                            ledSalon.brightness(amount);
+                            break;
+                        case "Chambre":
+                            ledChambre.brightness(amount);
+                            break;
+                    
+                        default:
+                            console.log("Probleme: Fonction: updateLight, Instruction inconnue: "+ data);
+                    }
         });
     }
     else{
@@ -175,7 +257,7 @@ io.sockets.on('connection', function (socket) {
     });
                
         
-    //comportement a la connection de l'ecran
+ //comportement a la connection de l'ecran - permet l'utilisation des gestes.
  socket.on("screen", function(data){
    socket.type = "screen";
    ss = socket;
@@ -219,6 +301,8 @@ io.sockets.on('connection', function (socket) {
    }
  });
 
+ //Evenement permettant de controler la video.
+ // Telecharge, et execute un nouveau processus système lisant la video
  socket.on("video", function(data){
 
     if( data.action === "play"){
@@ -239,6 +323,8 @@ io.sockets.on('connection', function (socket) {
 
  });
 
+ //Evenement "register", permet d'enregistrer avec 2 infos, utilisateur et mot de passe.
+ //Ces deux infos sont contenue dans la partie data, qui est un array.
  socket.on('register', function(data) {
      //console.log(data);     
      var username = data[0];

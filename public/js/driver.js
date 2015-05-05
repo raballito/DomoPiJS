@@ -1,13 +1,47 @@
+//Fichier gérant la partie "contrôle" du site.
 
 var socket = io.connect('http://localhost/');
+
 
 console.log("Chargement de js/driver.js fini")
 
 //Fonction d'initialisation et de passage des éléments allumés
-
-socket.on('ledCuisine1isOn', function(data){
-     $('#ledCuisine1').addClass('led-on');
-     $('#btnToggleLedCuisine1').text('Turn Off');
+socket.on('alreadyOn', function(data){
+    //On recupère l'info passée avec l'évenement, on l'assigne a la variable ioState
+    var ioState = data;
+    console.log("Etat des IO: "+ioState);
+    for (var i = 0; i < ioState.length; i++){
+        var index = i + 1;
+        //concerne les 2 premieres leds branchées, i.e a la pin de l'index 0 et 1 - A retravailler
+        if (ioState[i] == 1){ 
+            if(i == 0 || i == 1){
+                console.log("Lumiere Cuisine" + index + " deja allumee");
+                $('#ledCuisine'+ index).addClass('led-on');
+                $('#btnToggleLedCuisine'+index).text('Turn Off');
+            }
+        
+            else if (i == 2){
+                    console.log("Lumiere Salon" + index + " deja allumee");
+                    $('#ledSalon').addClass('led-on');
+                    $('#btnToggleLedSalon').text('Turn Off');
+            }
+            else if (i == 3){
+                    console.log("Lumiere Chambre" + index + " deja allumee");
+                    $('#ledChambre').addClass('led-on');
+                    $('#btnToggleLedChambre').text('Turn Off');
+            }
+            else{
+                    console.log("Un probleme est survenu à l'index: "+index+" avec IOState: "+ioState);
+            };
+            
+        };
+        
+    };
+    //changement des classes correspondantes
+    
+     //$('#ledCuisine1').addClass('led-on');
+     //changement des texts correspondants
+     //$('#btnToggleLedCuisine1').text('Turn Off');
   });
 
       
@@ -15,6 +49,10 @@ socket.on('ledCuisine1isOn', function(data){
   //A l'appui sur un bouton, on recupère son ID complet, et on l'assigne à une variable
   $("[id*='btnToggle']").click(function() {
       var idComplet = $(this).attr('id');
+      var number = $(this).attr('value');
+      var codeRoom = $(this).attr('room');
+      var codeObject = $(this).attr('object');
+      
       //On sépare les divers éléments de l'ID en fonction des majuscules
       var splitted = idComplet.split(/(?=[A-Z])/);
       //On assigne l'objet controlé par le bouton dans la variable objet
@@ -27,6 +65,7 @@ socket.on('ledCuisine1isOn', function(data){
       var CssClass = objet.toLowerCase() + "-on";
       //Création de l'ID cible du bouton
       var idCible = "#" + objet.toLowerCase() + splitted[3];
+      var parametre = objet.toLowerCase() + splitted[3];
       
       /*//On affiche la variable dans la console
       console.log(idComplet);
@@ -34,20 +73,24 @@ socket.on('ledCuisine1isOn', function(data){
       console.log(idCible);
       */
       
-      //Fonction de changement d'icone
+      changeIcon(objetEmplacement, idCible, CssClass);
+      socket.emit("toggleEquipement", parametre);
+      console.log("Envoie de l'instruction: toggle" + parametre);      
+});
+
+  //Fonction de changement d'icone
+  function changeIcon(objetEmplacement, idCible, CssClass){
       if($(idCible).hasClass(CssClass)){
           $(idCible).removeClass(CssClass);
-          $(this).text('Turn On');
+          $("#btnToggle"+objetEmplacement).text('Turn On');
       }
       else{
          $(idCible).addClass(CssClass); 
-         $(this).text('Turn Off');
+         $("#btnToggle"+objetEmplacement).text('Turn Off');
       }  
-      socket.emit(instruction);
-      console.log("Envoie de l'instruction " + instruction);      
-});
+  }
   
-  
+  //Fonction d'enregistrement
   $("[id='btnRegister']").click(function() {
       //récupérer l'identifiant et le mot de passe
       var user = $('#newUser').val();
@@ -61,8 +104,20 @@ socket.on('ledCuisine1isOn', function(data){
       console.log("Instruction 'register' envoyé avec le data suivant: " + requeteInfo)
   });
   
+  //Fonction d'affichage des infos sur la page d'accueil
   socket.on('newInfo', function(data){
       console.log("Une info vient d'arriver: " + data);
       $('#message').text(data);
   })
       
+  //Fonction générique pour les sliders
+  function updateSlider(slideAmount, lieu) {        
+        //Recupère l'élément de text a changer et lui passe la variable "slideAmount"
+        $('#chosen'+lieu).text(slideAmount);
+        //creation des parametres utiles a la fonction
+        var objet = $('#slide'+lieu).attr('objet');     
+        //Concaténage
+        var parametre = [objet, lieu, slideAmount];
+        console.log(parametre);       
+        socket.emit("updateSlider", parametre)
+};

@@ -164,7 +164,7 @@ html
             .modal-body
               .row
                 .col-md-4
-                  | DomoPi Version 0.0.6
+                  | DomoPi Version 0.1.0
                 | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                 .col-md-4
                   a.fa.fa-copyright(href='http://www.cpnv.ch', <i='')  CPNV - 2015 
@@ -256,23 +256,19 @@ html
                     
               .center-block.text-center.col-md-6
                   img(src='../img/maison.png')
-                  br
-                  h4.titre= info
             .row.center-block.col-md-12
              br
              if (!user)
-              h3.titre Veuillez vous identifier pour prendre le controle de l'UI
-              a(href="/login")
-               button.btn.btn-primary(type="button") Connection
-              
-              // ajouter l'instruction  "hidden=''" après la balise a(href='') suivante pour enlever le bouton
-              a(href="/register"  hidden='')
-               button.btn.btn-primary(type="button") Enregistrement
+                h3.titre Veuillez vous identifier pour prendre le controle de l'UI
+                a(href="/login")
+                    button.btn.btn-primary(type="button") Connection
+
              if (user)
-              p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
-              br
-              h4#message.titre Vous pouvez prendre le controle
-              
+                p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
+                br
+                h4#message.titre Vous pouvez prendre le controle
+                h4.titre= info
+                
       // Fenetre de compte
       #containerAccount.row(hidden='')
         .col-md-12.titre
@@ -398,14 +394,26 @@ html
                       h3.panel-title
                         a(href='#salonLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
                     | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    
                     #salonLumiere.panel-collapse.collapse
                       .panel-body
                         p.text-center
-                          i#ledSalon.fa.fa-lightbulb-o.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleLedSalon.btn.btn-lg.btn-primary(type='button') Turn On
+                          .row
+                            .col-md-9.text-center
+                                i#ledSalon.fa.fa-lightbulb-o.fa-5x
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                br
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                button#btnToggleLedSalon.btn.btn-lg.btn-primary(type='button') Turn On
+                                br
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                #chosenSalon 0
+                            .col-md-3
+                                #sliderSalon.text-center
+                                    | 100% 
+                                    input#slideSalon(type='range', style='-webkit-appearance: slider-vertical', min='0', max='255', step='5', value='0', name='Salon', objet='Led', onchange='updateSlider(this.value, this.name)')
+                                    |  0%
+                                    br
                 | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary
@@ -462,16 +470,27 @@ html
                   .panel.panel-primary
                     .panel-heading
                       h3.panel-title
-                        a(href='#chambreLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                        a(href='#chambreLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res 
                     | &#x9;&#x9;&#x9;&#x9;&#x9;
                     #chambreLumiere.panel-collapse.collapse
                       .panel-body
                         p.text-center
-                          i#ledChambre.fa.fa-lightbulb-o.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleLedChambre.btn.btn-lg.btn-primary(type='button') Turn On
+                          .row
+                            .col-md-9.text-center
+                                i#ledChambre.fa.fa-lightbulb-o.fa-5x
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                br
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                button#btnToggleLedChambre.btn.btn-lg.btn-primary(type='button') Turn On
+                                br
+                                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                                #chosenChambre 0
+                            .col-md-3
+                                #sliderChambre.text-center
+                                    | 100% 
+                                    input#slideChambre(type='range', style='-webkit-appearance: slider-vertical', min='0', max='255', step='5', value='0', name='Chambre', objet='Led', onchange='updateSlider(this.value, this.name)')
+                                    |  0%
+                                    br
                 | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary

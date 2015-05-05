@@ -1,3 +1,4 @@
+//Fichier gérant les routes: les pages a afficher en fonction de l'url
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
@@ -38,6 +39,7 @@ router.post('/login', function(req, res, next) {
       if (err) { return next(err); }
       user = req.user;
       console.log(user.username + " is now connected");
+      //passage de l'utilisateur dans les cookies - n'a pas l'air de marcher...
       res.cookie('user', user, {maxAge: 500});
       req.session.user = user;
       return res.render('newIndex', { user : req.user });
@@ -46,10 +48,9 @@ router.post('/login', function(req, res, next) {
 });
 
 
-
-
-//A garder commentée. Peut etre pratique si l'enregistrement normal ne fonctionne plus
-/*router.get('/register', function(req, res) { 
+//A garder commentée. Peut etre pratique si l'enregistrement normal ne fonctionne plus, ou pour enregistrer le premier utilisateur
+/*
+router.get('/register', function(req, res) { 
     res.render('register');
 });
 
@@ -67,24 +68,13 @@ router.post('/register', function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.logout();
-    res.render('newIndex', { user: req.user });
+    res.render('newIndex');
 });
 
 
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
 });
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
-}
 
 
 module.exports = router;
