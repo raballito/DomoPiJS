@@ -1,5 +1,12 @@
 console.log("Chargement de js/interface.js fini");
-//Fichier gérant la "cosmétique" su site
+
+//Initialisation des fonctions démarant au chargement de la page
+$(document).ready(function(){
+      time(); //heure
+      Weather.init(); //météo
+      });   
+
+
 
 //Obtention de l'Heure
 //Initialisation des variable: minutes, secondes et heure.
@@ -37,7 +44,7 @@ today =  days[now.getDay()] + ", " + date + " "  + months[now.getMonth()] + " " 
 //Passage de la date (today) dans la div d'ID "dayDate"
 document.getElementById('dayDate').innerHTML=today;  
 
-//Script anim début (pas fonctionnel visiblement... - doit aller avec la premiere balise div dans le 'body' du html)
+//Script anim début (pas fonctionnelle encore - doit aller avec la premiere balise div dans le 'body' du html)
 var Loader = {
   loader: $('#loader'),
   show: function() {
@@ -52,7 +59,7 @@ var Loader = {
 
 
 // Fonctions météo - Disponibilité uniquement en anglais... 
-// ------ A AJOUTER: fct permettant de verifier la disponibilité en ligne de l'API et envoyer un message d'erreur sinon - Faire un essai avec "try & catch"
+// ------ A AJOUTER: fct permettant de verifier la disponibilité en ligne de l'API et envoyer un message d'erreur sinon
   
 //On initialise la variable Weather, et on définit des fonctions permettant de récuppérer la météo
 var Weather = {
@@ -191,12 +198,8 @@ var Weather = {
 	  }
 };
 
-//Initialisation des fonctions démarant au chargement de la page
-$(document).ready(function(){
-      time(); //heure
-      Weather.init(); //météo
-      });   
 
+ 
 
 // initialisation des comportements quand le DOM est pret
 document.addEventListener('DOMContentLoaded', function() {

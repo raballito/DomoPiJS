@@ -1,4 +1,3 @@
-//Fichier gérant les routes: les pages a afficher en fonction de l'url
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
@@ -39,7 +38,7 @@ router.post('/login', function(req, res, next) {
       if (err) { return next(err); }
       user = req.user;
       console.log(user.username + " is now connected");
-      //passage de l'utilisateur dans les cookies - n'a pas l'air de marcher...
+      //passage de l'utilisateur dans les cookies
       res.cookie('user', user, {maxAge: 500});
       req.session.user = user;
       return res.render('newIndex', { user : req.user });

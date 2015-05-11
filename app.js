@@ -107,35 +107,69 @@ server.listen(app.get('port'), function(){
 
 module.exports = app;
 
-// ----------- OK JUSQUE ICI ------------ Rien a retravailler, excepté peut-être pour ajouter les cookies
-
 //ici doit venir les commandes (ou fichiers) gérant les fonctions johnny-five
-//ou les constructeurs!!!
 
 //var johnny = require('./public/js/johnny');
+
+//Initialisation des variables
+    var PORT = 'COM3';
+    var boardConnected = false;  
+    
+
+//Constructeur d'équipement
+function Equipement(adress, place, object, protocol){
+    this.adress = adress;
+    this.place = place;
+    this.object = object;
+    this.protocol = protocol;
+    this.name = object + place + adress;
+};
+
+var ledPins = [];
+var sensorPins = [];
+
+//Création des nouveaux equipements --- Ajouter ICI les nouveaux équipements ---
+var listeEquipement = [
+    new Equipement(13, 'Cuisine', 'led', 'digital'),
+    new Equipement(12, 'Cuisine', 'led', 'digital'),
+    new Equipement(11, 'Salon', 'led', 'digital'),
+    new Equipement(10, 'Chambre', 'led', 'digital'),
+];
+
+var listeInput = [
+    new Equipement('A0', 'Cuisine', 'sensor', 'analog'),
+    new Equipement('A1', 'Salon', 'sensor', 'analog'),
+];
+
+var listeNom = [];
+
+//Définition automatique de la liste des pins utilisées en fonction de la liste d'équipement 
+// -- Automatiquement généré --
+for (var i = 0; i < listeEquipement.length; i++){
+    ledPins[i] = listeEquipement[i].adress;
+    listeNom[i] = listeEquipement[i].name;
+};
+
+for (var i = 0; i < listeInput.length; i++){
+    sensorPins[i] = listeInput[i].adress;
+};
+
 
 // create the board connected to the port selected - A changer quand on passera sur linux
 // Créer ici une fonction avec le module "SerialPort" afin d'énumérer les ports usb
 // de regarder s'il y a une carte, assigner cette valeur a la variable PORT, et activer la partie de dessous
         
         
-        //Initialisation des variables
-        var PORT = 'COM3';
-        var boardConnected = false;
+    var board = new five.Board({port: PORT});    
         
-        var board = new five.Board({port: PORT});
-        
-        // ------- A RETRAVAILLER ------- initialiser les ports au moyen d'un constructeur 
-        //afin de mettre les pin dans un ordre connu par une fonction. Devrait permettre de
-        //générer des nom dynamiques en fonction des données du constructeur
         //Enummération des Pins utilisées par les leds supplém.
-        var ledPins = [13, 12, 11, 10];
+        
         var ioState = [];
         var leds = [];
-        var board,ledCuisine1, ledCuisine2, ledChambre, ledSalon;
+        var board;
         
         
-        //Fonction test des IO
+        //Fonction test des IO -- Automatiquement généré --
           function testIO(){
             var etat = [];
             for (var i = 0; i < leds.length; i++){
@@ -156,39 +190,43 @@ module.exports = app;
         
 
         // when board is ready
-        board.on('ready', function() {
+        board.on('ready', function() {  
+        leds = new five.Leds(ledPins);
         
-        //on donne un array en entrée (ledPins) ==> leds est un array
-        leds = new five.Leds(ledPins);    
-          
-          // ------ RETRAVAILLER ICI ------- ya surement moyen de faire une boucle "for" afin d'initialiser avec un nom tiré d'un constructeur
-          // creer la led, attachée a l'INDEX correspondant dans l'array de LEDPINS
-          ledCuisine1 = leds[0]; // = pin 13
-          // create Led component connected to the pin 12
-          ledCuisine2 = leds[1];
-          ledSalon = leds[2];
-          ledChambre = leds[3];
-          
-          
-          
-          //Permet de nommer les leds utilisées en fonction de leur place dans l'array ioState
-          //Permet d'activer les leds par la console (Non obligatoire?!)
-          board.repl.inject({
-
-            ledCuisine1: ledCuisine1,
-            ledCuisine2: ledCuisine2,  
-            ledChambre: ledChambre,
+        //création d'un senseur basé sur le LM35
+        sensorTempCuisine = new five.Sensor({
+            pin: sensorPins[0],
+            freq: 1000,
+        });
+        //et un deuxieme, pour le salon
+        sensorTempSalon = new five.Sensor({
+            pin: sensorPins[1],
+            freq: 1000,
+        });
+        
+        
+        
+        //On associe à chaques objets de listeNom un objet Johnny-Five -- Automatiquement généré --
+        for (var i = 0; i < listeEquipement.length; i++){
+            listeNom[i] = leds[i];
+        }; 
+        
+        //Permet d'acceder au led au travers de l'objet leds[i] -- Automatiquement généré --
+        //Permet d'activer les leds par la console (Non obligatoire?!)
+        board.repl.inject({
             leds: leds,
-          });
-          boardConnected = true;
-          
+            sensorTempCuisine: sensorTempCuisine,
+            sensorTempSalon: sensorTempSalon,
+        });
+        
+        boardConnected = true;
         });
         
         
 //Socket.io Server - A la connexion
 io.sockets.on('connection', function (socket) {
     
-    //A chaques connexion, relancer la fonction de test des io
+    //A chaques connexion, relancer la fonction de test des io -- Automatiquement généré --
     testIO();
     
     
@@ -198,22 +236,48 @@ io.sockets.on('connection', function (socket) {
         console.log("IO State: " + ioState);
         //Initialisation et passage des PINS allumés a la page HTML
         socket.emit('alreadyOn', ioState);
-    
+        
+        //réceptions des données du senseur temp. Cuisine
+        sensorTempCuisine.on("data", function(){
+            //Supression des chiffres après la virgule
+            var reste = (this.raw)%9.5;
+            var rawCorrect = this.raw - reste;
+            //définition d'une échelle de température assez correcte. Redéfinir la division pour plus de précision
+            var temperature = (rawCorrect)/9.5;
+           //console.log('Température Cuisine: '+temperature+'°C');
+           var data = ['Cuisine', temperature];
+           socket.emit("temperature", data);
+        });
+        
+        //réceptions des données du senseur temp. Salon
+        sensorTempSalon.on("data", function(){
+            //Supression des chiffres après la virgule
+            var reste = (this.raw)%9.5;
+            var rawCorrect = this.raw - reste;
+            //définition d'une échelle de température assez correcte. Redéfinir la division pour plus de précision
+            var temperature = (rawCorrect)/9.5;
+           //console.log('Température Salon: '+temperature+'°C');
+           var data = ['Salon', temperature];
+           socket.emit("temperature", data);
+        });
+        
+        
+        
         //comportement au clique sur un bouton - Faire un case pour chaques appareil.
         socket.on("toggleEquipement", function(data){                
             console.log("Reception de l'instruction Toggle: " + data)
             switch (data){
                 case "ledCuisine1":
-                    ledCuisine1.toggle();
+                    leds[0].toggle();
                     break;
                 case "ledCuisine2":
-                    ledCuisine2.toggle();
+                    leds[1].toggle();
                     break;
                 case "ledSalon":
-                    ledSalon.toggle();
+                    leds[2].toggle();
                     break;
                 case "ledChambre":
-                    ledChambre.toggle();
+                    leds[3].toggle();
                     break;
                     
                 default:
@@ -231,16 +295,16 @@ io.sockets.on('connection', function (socket) {
             //Comportement en fonction de l'objet et du lieu
             switch (emplacement){
                         case "Cuisine1":
-                            ledCuisine1.brightness(amount);
+                            leds[0].brightness(amount);
                             break;
                         case "Cuisine2":
-                            ledCuisine2.brightness(amount);
+                            leds[1].brightness(amount);
                             break;
                         case "Salon":
-                            ledSalon.brightness(amount);
+                            leds[2].brightness(amount);
                             break;
                         case "Chambre":
-                            ledChambre.brightness(amount);
+                            leds[3].brightness(amount);
                             break;
                     
                         default:
@@ -249,9 +313,10 @@ io.sockets.on('connection', function (socket) {
         });
     }
     else{
-        console.log("WARNING, board disconnected!");
+        console.log("WARNING, board disconnected for now!");
     };
     
+    //Fonction de test - Utile pour tester diverses fonctions.
     socket.on("test", function(data){
         console.log("Reception de l'instruction 'test' ");
     });

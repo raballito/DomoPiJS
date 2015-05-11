@@ -1,4 +1,3 @@
-//Fichier gérant la partie "contrôle" du site.
 
 var socket = io.connect('http://localhost/');
 
@@ -6,6 +5,8 @@ var socket = io.connect('http://localhost/');
 console.log("Chargement de js/driver.js fini")
 
 //Fonction d'initialisation et de passage des éléments allumés
+// A changer pour générer automatiquement les icones activées en fonction du data
+// (Envoyer la listeEquipement de app.js en parametre?!)
 socket.on('alreadyOn', function(data){
     //On recupère l'info passée avec l'évenement, on l'assigne a la variable ioState
     var ioState = data;
@@ -37,11 +38,7 @@ socket.on('alreadyOn', function(data){
         };
         
     };
-    //changement des classes correspondantes
-    
-     //$('#ledCuisine1').addClass('led-on');
-     //changement des texts correspondants
-     //$('#btnToggleLedCuisine1').text('Turn Off');
+
   });
 
       
@@ -78,7 +75,7 @@ socket.on('alreadyOn', function(data){
       console.log("Envoie de l'instruction: toggle" + parametre);      
 });
 
-  //Fonction de changement d'icone
+  //Fonction de changement d'icone - change l'icone si la cible possède la classe "objet-on"
   function changeIcon(objetEmplacement, idCible, CssClass){
       if($(idCible).hasClass(CssClass)){
           $(idCible).removeClass(CssClass);
@@ -104,15 +101,15 @@ socket.on('alreadyOn', function(data){
       console.log("Instruction 'register' envoyé avec le data suivant: " + requeteInfo)
   });
   
-  //Fonction d'affichage des infos sur la page d'accueil
+  //Fonction d'affichage des infos sur la page d'accueil - A mettre dans une fenetre modale?!
   socket.on('newInfo', function(data){
       console.log("Une info vient d'arriver: " + data);
       $('#message').text(data);
-  })
+  });
       
   //Fonction générique pour les sliders
-  function updateSlider(slideAmount, lieu) {        
-        //Recupère l'élément de text a changer et lui passe la variable "slideAmount"
+  function updateSlider(slideAmount, lieu) {     
+        //Recupère l'élément de text a changer et lui passe la variable "slideAmount" - doit possèder l'ID chosen + Lieu pour etre changé
         $('#chosen'+lieu).text(slideAmount);
         //creation des parametres utiles a la fonction
         var objet = $('#slide'+lieu).attr('objet');     
@@ -121,3 +118,22 @@ socket.on('alreadyOn', function(data){
         console.log(parametre);       
         socket.emit("updateSlider", parametre)
 };
+
+socket.on('temperature', function (data){
+    var lieu = data[0];
+    var temp = data[1];
+    //console.log("Incoming sensor");
+    var code;
+    if (lieu == "Cuisine"){
+        code = 0;
+    }
+    else if (lieu == "Salon"){
+        code = 1;
+    }
+    else {
+        console.log("Probleme avec les variables de température")
+    }
+    $("#inData"+code).append(temp+" °C"+"\r");
+    $("#inData"+code).animate({scrollTop:$("#inData"+code)[0].scrollHeight - $("#inData"+code).height()},200);
+    
+});

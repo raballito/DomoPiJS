@@ -141,9 +141,39 @@ mongod --auth --config /etc/mongodb/mongodb.conf
 
 ```
 
-Partie 3: Ajouter un utilisateur standard 
+Partie 3: Ajouter un utilisateur standard (... Provisoire ...)
 
-- Passer par l'interface: commencer par se logger, puis aller dans le menu d'aide/ajouter un nouvel utilisateur
+- Relancer "mongo" avec la commande suivante pour se connecter au service avec les droits admin
+
+``` bash
+mongo -u admin -p admin --authenticationDatabase admin
+
+
+```
+
+- Ajouter un utilisateur avec les commandes suivante
+
+``` bash
+use admin
+db.createUser(
+    {
+      user: "DomoPi",
+      pwd: "12345678",
+      roles: [
+         { role: "userAdmin", db: "local" }
+      ]
+    }
+)
+
+```
+
+Partie 4: Authorisation des utilisateurs
+
+
+``` bash
+------------ A VENIR -------------
+
+```
 
 
 ## Lancer le programme DomoPiJS
