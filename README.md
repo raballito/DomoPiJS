@@ -7,6 +7,8 @@ Copyright at CPNV - www.cpnv.ch
 
 Projet basé sur le [Framework Johnny-five](https://github.com/rwaldron/johnny-five)
 
+Version 0.1.1
+
 ## Installation sur le Rasperry Pi
 
 - [Télécharger Raspbian](http://www.raspberrypi.org/downloads)
@@ -141,34 +143,15 @@ mongod --auth --config /etc/mongodb/mongodb.conf
 
 ```
 
-Partie 3: Ajouter un utilisateur standard (... Provisoire ...)
+Partie 3: Ajouter un utilisateur standard 
 
-- Relancer "mongo" avec la commande suivante pour se connecter au service avec les droits admin
-
-``` bash
-mongo -u admin -p admin --authenticationDatabase admin
+Passer par l'interface après s'être connecté pour enregistrer un nouvel utilisateur.
+Pour cela, ouvrir le menu d'aide, et cliquer sur "Ajouter un utilisateur"
 
 
-```
+Partie 4: Authorisation des utilisateurs ----- A VENIR -----
 
-- Ajouter un utilisateur avec les commandes suivante
-
-``` bash
-use admin
-db.createUser(
-    {
-      user: "DomoPi",
-      pwd: "12345678",
-      roles: [
-         { role: "userAdmin", db: "local" }
-      ]
-    }
-)
-
-```
-
-Partie 4: Authorisation des utilisateurs
-
+Afin de limiter les utilisateurs au contrôle de certaine pièces
 
 ``` bash
 ------------ A VENIR -------------
@@ -188,11 +171,13 @@ node app.js
 
 ## Se connecter à l'interface
 
-- Depuis un navigateur récent, taper dans l'adresse IP du Raspberry Pi
+- Depuis un navigateur récent, taper dans la barre d'adresse, l'IP du Raspberry Pi.
+Elle commence généralement par : 192.168.X.XXX
+Elle devrait aussi apparaître au démarrage du Raspberry Pi, quelques lignes au dessus de celle permettant de se logger.
 
 
 ``` bash
-Procédure pour le trouver sur le réseau A VENIR
+Procédure pour le trouver sur le réseau ----- A VENIR ------
 
 ```
 
