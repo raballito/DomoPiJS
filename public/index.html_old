@@ -33,7 +33,7 @@
           </div>
           <div class="collapse navbar-collapse" id="navegationBar">
 			
-			<div id="unlogged">
+			<div id="unlogged" hidden>
 			<ul class="nav navbar-nav">
 				<li  id="linkLogIn">
 					<a href="/login" ><i class="fa fa-sign-in"></i> Login</a>
@@ -60,7 +60,7 @@
 			</ul>
 			</div>
 			
-			<div  id="logged" hidden>
+			<div  id="logged">
             <ul class="nav navbar-nav">
               <li  id="linkControl">
                 <a href="#control" ><i class="fa fa-sliders"></i> Contrôle</a>

@@ -137,8 +137,9 @@ var listeEquipement = [
 ];
 
 var listeInput = [
-    new Equipement('A0', 'Cuisine', 'sensor', 'analog'),
-    new Equipement('A1', 'Salon', 'sensor', 'analog'),
+    new Equipement('A0', 'Cuisine', 'temperature', 'analog'),
+    new Equipement('A1', 'Salon', 'temparature', 'analog'),
+    new Equipement('A5', 'TEST', 'sensor', 'analog'),
 ];
 
 var listeNom = [];
@@ -194,13 +195,20 @@ for (var i = 0; i < listeInput.length; i++){
         leds = new five.Leds(ledPins);
         
         //création d'un senseur basé sur le LM35
-        sensorTempCuisine = new five.Sensor({
+        sensorTempCuisine = new five.Temperature({
+            controller: "LM35",
             pin: sensorPins[0],
             freq: 1000,
         });
         //et un deuxieme, pour le salon
-        sensorTempSalon = new five.Sensor({
+        sensorTempSalon = new five.Temperature({
+            controller: "LM35",
             pin: sensorPins[1],
+            freq: 1000,
+        });
+        //et un de test pour remplacer le multimetre
+        sensorTest = new five.Sensor({
+            pin: sensorPins[2],
             freq: 1000,
         });
         
@@ -217,6 +225,7 @@ for (var i = 0; i < listeInput.length; i++){
             leds: leds,
             sensorTempCuisine: sensorTempCuisine,
             sensorTempSalon: sensorTempSalon,
+            sensorTest: sensorTest,
         });
         
         boardConnected = true;
@@ -234,34 +243,29 @@ io.sockets.on('connection', function (socket) {
     if (boardConnected){
         console.log("People Connected with Board Ready, proceeding...");
         console.log("IO State: " + ioState);
-        //Initialisation et passage des PINS allumés a la page HTML
-        socket.emit('alreadyOn', ioState);
+        //Initialisation et passage des PINS allumés a la page HTML + Liste équipement
+        socket.emit('alreadyOn', {ioState: ioState, listeEquipement: listeEquipement});
         
         //réceptions des données du senseur temp. Cuisine
-        sensorTempCuisine.on("data", function(){
-            //Supression des chiffres après la virgule
-            var reste = (this.raw)%9.5;
-            var rawCorrect = this.raw - reste;
-            //définition d'une échelle de température assez correcte. Redéfinir la division pour plus de précision
-            var temperature = (rawCorrect)/9.5;
+        sensorTempCuisine.on("change", function(err, data){
+            //Suppression des chiffres après la virgule
+            var temperature = parseInt(data.celsius, 10);
            //console.log('Température Cuisine: '+temperature+'°C');
-           var data = ['Cuisine', temperature];
-           socket.emit("temperature", data);
+           socket.emit("sensor", {type: 'temperature', salle: 'Cuisine', valeur: temperature});
         });
         
         //réceptions des données du senseur temp. Salon
-        sensorTempSalon.on("data", function(){
-            //Supression des chiffres après la virgule
-            var reste = (this.raw)%9.5;
-            var rawCorrect = this.raw - reste;
-            //définition d'une échelle de température assez correcte. Redéfinir la division pour plus de précision
-            var temperature = (rawCorrect)/9.5;
+        sensorTempSalon.on("change", function(err, data){
+            //Suppression des chiffres après la virgule
+            var temperature = parseInt(data.celsius, 10);
            //console.log('Température Salon: '+temperature+'°C');
-           var data = ['Salon', temperature];
-           socket.emit("temperature", data);
+           socket.emit("sensor", {type: 'temperature', salle: 'Salon', valeur: temperature});
         });
         
-        
+        //reception des données du senseur test, remplacant du multimetre
+        sensorTest.scale(0,5).on("change", function(){
+            socket.emit("sensor", {type: 'senseur', salle: 'TEST', valeur: this.value});
+        })
         
         //comportement au clique sur un bouton - Faire un case pour chaques appareil.
         socket.on("toggleEquipement", function(data){                

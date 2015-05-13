@@ -164,7 +164,7 @@ html
             .modal-body
               .row
                 .col-md-4
-                  | DomoPi Version 0.1.0
+                  | DomoPi Version 0.1.3
                 | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                 .col-md-4
                   a.fa.fa-copyright(href='http://www.cpnv.ch', <i='')  CPNV - 2015 
@@ -407,7 +407,7 @@ html
                                 button#btnToggleLedSalon.btn.btn-lg.btn-primary(type='button') Turn On
                                 br
                                 | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                                #chosenSalon 0
+                                #chosenSalon
                             .col-md-3
                                 #sliderSalon.text-center
                                     | 100% 
@@ -484,7 +484,7 @@ html
                                 button#btnToggleLedChambre.btn.btn-lg.btn-primary(type='button') Turn On
                                 br
                                 | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                                #chosenChambre 0
+                                #chosenChambre
                             .col-md-3
                                 #sliderChambre.text-center
                                     | 100% 
@@ -779,7 +779,7 @@ html
                 | &#x9;&#x9;&#x9;&#x9;
                 textarea#inData1.form-control(style='background:#222; color:#00ff00;', rows='8')
               | &#x9;&#x9;&#x9;
-              .col-md-2.titre
+              .col-md-3.titre
                 h4 From Analog 2
                 | &#x9;&#x9;&#x9;&#x9;
                 textarea#inData2.form-control(style='background:#222; color:#00ff00;', rows='8')
@@ -798,230 +798,26 @@ html
             section#containerAnalogOut.col-sm-8.main(hidden='')
               .row.titre
                 h1 Sorties Analogiques
-              |           
-              .row.placeholders
-                .col-xs-6.col-sm-3.placeholder
-                  img.img-responsive(data-src='holder.js/200x200/auto/sky', alt='Generic placeholder thumbnail')
-                  |               
-                  h4 Label
-                  |               
-                  span.text-muted Something else
-                |             
-                .col-xs-6.col-sm-3.placeholder
-                  img.img-responsive(data-src='holder.js/200x200/auto/vine', alt='Generic placeholder thumbnail')
-                  |               
-                  h4 Label
-                  |               
-                  span.text-muted Something else
-                |             
-                .col-xs-6.col-sm-3.placeholder
-                  img.img-responsive(data-src='holder.js/200x200/auto/sky', alt='Generic placeholder thumbnail')
-                  |               
-                  h4 Label
-                  |               
-                  span.text-muted Something else
-                |             
-                .col-xs-6.col-sm-3.placeholder
-                  img.img-responsive(data-src='holder.js/200x200/auto/vine', alt='Generic placeholder thumbnail')
-                  |               
-                  h4 Label
-                  |               
-                  span.text-muted Something else
-              |           
-              h2.sub-header Section title
-              |           
+              |                    
               .table-responsive
                 table.table.table-striped
                   thead
                     tr
-                      th #
+                      th Adresse
                       |                   
-                      th Header
+                      th Emplacement
                       |                   
-                      th Header
+                      th Objet
                       |                   
-                      th Header
+                      th Protocole
                       |                   
-                      th Header
+                      th Etat
                   |               
-                  tbody
-                    tr
-                      td 1,001
-                      |                   
-                      td Lorem
-                      |                   
-                      td ipsum
-                      |                   
-                      td dolor
-                      |                   
-                      td sit
-                    |                 
-                    tr
-                      td 1,002
-                      |                   
-                      td amet
-                      |                   
-                      td consectetur
-                      |                   
-                      td adipiscing
-                      |                   
-                      td elit
-                    |                 
-                    tr
-                      td 1,003
-                      |                   
-                      td Integer
-                      |                   
-                      td nec
-                      |                   
-                      td odio
-                      |                   
-                      td Praesent
-                    |                 
-                    tr
-                      td 1,003
-                      |                   
-                      td libero
-                      |                   
-                      td Sed
-                      |                   
-                      td cursus
-                      |                   
-                      td ante
-                    |                 
-                    tr
-                      td 1,004
-                      |                   
-                      td dapibus
-                      |                   
-                      td diam
-                      |                   
-                      td Sed
-                      |                   
-                      td nisi
-                    |                 
-                    tr
-                      td 1,005
-                      |                   
-                      td Nulla
-                      |                   
-                      td quis
-                      |                   
-                      td sem
-                      |                   
-                      td at
-                    |                 
-                    tr
-                      td 1,006
-                      |                   
-                      td nibh
-                      |                   
-                      td elementum
-                      |                   
-                      td imperdiet
-                      |                   
-                      td Duis
-                    |                 
-                    tr
-                      td 1,007
-                      |                   
-                      td sagittis
-                      |                   
-                      td ipsum
-                      |                   
-                      td Praesent
-                      |                   
-                      td mauris
-                    |                 
-                    tr
-                      td 1,008
-                      |                   
-                      td Fusce
-                      |                   
-                      td nec
-                      |                   
-                      td tellus
-                      |                   
-                      td sed
-                    |                 
-                    tr
-                      td 1,009
-                      |                   
-                      td augue
-                      |                   
-                      td semper
-                      |                   
-                      td porta
-                      |                   
-                      td Mauris
-                    |                 
-                    tr
-                      td 1,010
-                      |                   
-                      td massa
-                      |                   
-                      td Vestibulum
-                      |                   
-                      td lacinia
-                      |                   
-                      td arcu
-                    |                 
-                    tr
-                      td 1,011
-                      |                   
-                      td eget
-                      |                   
-                      td nulla
-                      |                   
-                      td Class
-                      |                   
-                      td aptent
-                    |                 
-                    tr
-                      td 1,012
-                      |                   
-                      td taciti
-                      |                   
-                      td sociosqu
-                      |                   
-                      td ad
-                      |                   
-                      td litora
-                    |                 
-                    tr
-                      td 1,013
-                      |                   
-                      td torquent
-                      |                   
-                      td per
-                      |                   
-                      td conubia
-                      |                   
-                      td nostra
-                    |                 
-                    tr
-                      td 1,014
-                      |                   
-                      td per
-                      |                   
-                      td inceptos
-                      |                   
-                      td himenaeos
-                      |                   
-                      td Curabitur
-                    |                 
-                    tr
-                      td 1,015
-                      |                   
-                      td sodales
-                      |                   
-                      td ligula
-                      |                   
-                      td in
-                      |                   
-                      td libero
+                  tbody.ioTab
+                    
 
-    // Scripts à executer - Toujours les mettres à la fin
+
+    // Scripts à executer - Toujours les mettres à la fin pour ne pas ralentir le chargement
     script(type='text/javascript', src='js/jquery.min.js')
     |     
     script(type='text/javascript', src='js/bootstrap.min.js')
@@ -1035,7 +831,7 @@ html
     script(type='text/javascript', src='js/driver.js')
     //| &#x9;
     
-      
+    //Template de météo  -- Fonctionnel -- 
     script#weatherTpl(type='text/template')
       li
         p.icon {{icon}}
@@ -1046,4 +842,16 @@ html
             | &#x9;
         p.day {{day}}
     
+    //Template pour le tableau des IO -- Fonctionnel -- 
+    script#ioTabTpl(type='text/template')
+       tr
+          td.adress {{adress}}
+          |                   
+          td.emplacement {{place}}
+          |                   
+          td.objet {{object}}
+          |                   
+          td.protocol {{protocol}}
+          |                   
+          td.etat {{etat}}
     
