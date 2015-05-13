@@ -141,7 +141,7 @@ html
                 li#linkAccount
                   a(href='#account')
                     i.fa.fa-user
-                    |  Compte
+                    |  #{user.username}
                 | &#x9;&#x9;&#x9;&#x9;
                 li#linkLogOut
                   a(href='/logout')
@@ -256,6 +256,10 @@ html
                     
               .center-block.text-center.col-md-6
                   img(src='../img/maison.png')
+              if (user)
+                .center-block.text-center.col-md-2
+                    p Personnes Connectee
+                    p#listUser
             .row.center-block.col-md-12
              br
              if (!user)
@@ -264,8 +268,6 @@ html
                     button.btn.btn-primary(type="button") Connection
 
              if (user)
-                p Vous &ecirc;tes maintenant connect&eacute; en tant que #{user.username}
-                br
                 h4#message.titre Vous pouvez prendre le controle
                 h4.titre= info
                 
@@ -802,7 +804,7 @@ html
               .table-responsive
                 table.table.table-striped
                   thead
-                    tr
+                    tr.titre
                       th Adresse
                       |                   
                       th Emplacement

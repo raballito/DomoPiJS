@@ -1,8 +1,22 @@
-
-var socket = io.connect('http://localhost/');
-
-
 console.log("Chargement de js/driver.js fini")
+
+var ip = location.host;
+var socket = io.connect(ip);
+
+
+//Fonction de récupération de la personne connectée au chargement de la page --- EN COURS ---
+$(document).ready(function(){
+var textLinkAccount = $("#linkAccount").text();
+var username = textLinkAccount.substring(1);
+
+$('#listUser').prepend(username);
+socket.emit("nouveau_client", username);
+});
+//Affichage de tous les gens connectés
+socket.on("nouveau_client", function(username){
+    $('#listUser').prepend('<p>' + username);
+});
+
 
   //Fonction d'initialisation et de passage des éléments allumés. ------ EN COURS --------
   // Création de la liste des sorties (+entrée?!) + gestion des icones si activées.
@@ -27,10 +41,10 @@ console.log("Chargement de js/driver.js fini")
         $('tbody.ioTab').append(html);
     });
     
-    //Partie gestion des icones -- A retravailler 
+    //Partie gestion des icones -- A RETRAVAILLER  --
     for (var i = 0; i < ioState.length; i++){
         var index = i + 1;
-        //concerne les 2 premieres leds branchées, i.e a la pin de l'index 0 et 1 - A retravailler
+        //concerne les 2 premieres leds branchées, i.e a la pin de l'index 0 et 1 
         if (ioState[i] == 1){ //si état == 1
             if(i == 0 || i == 1){
                 console.log("Lumiere Cuisine" + index + " deja allumee");

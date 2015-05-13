@@ -95,7 +95,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 //mongoose - connection a la base de donnée de DomoPiJS
-mongoose.connect('mongodb://localhost/local', function(){
+var db = mongoose.connect('mongodb://localhost/local', function(){
 	console.log('Connection to MongoDB_local Ready')
 });
 
@@ -112,6 +112,7 @@ module.exports = app;
 //var johnny = require('./public/js/johnny');
 
 //Initialisation des variables
+    var listUser = new Array();
     var PORT = 'COM3';
     var boardConnected = false;  
     
@@ -233,11 +234,24 @@ for (var i = 0; i < listeInput.length; i++){
         
         
 //Socket.io Server - A la connexion
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function (socket, username) {
     
     //A chaques connexion, relancer la fonction de test des io -- Automatiquement généré --
     testIO();
     
+    //Récupération des personnes connectées ------- EN COURS -------
+    socket.on("nouveau_client", function(username){
+        //On stock le pseudo dans une variable de session
+        socket.username = username;
+        if (listUser.indexOf(username)){
+            console.log("username already connected")
+        }
+        else{
+            listUser.push(username);
+        };
+        //On emmet un message a tous
+        socket.broadcast.emit("nouveau_client", username);
+    });
     
     //Si la carte est connectée
     if (boardConnected){
