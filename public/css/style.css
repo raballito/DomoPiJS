@@ -104,6 +104,7 @@ padding: 15px;
 	display: inline-block;
 	float: left;
 	margin: 8px 2px;
+    width: 66px;
 }
 
 .weather li .temp{
@@ -122,6 +123,7 @@ padding: 15px;
 
 .weather li:first-child{
 	margin-top: -30px;
+    width: 180px;
 }
 .weather li:first-child .icon{
 	font-size: 11.5em;

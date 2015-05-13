@@ -8,7 +8,6 @@ var socket = io.connect(ip);
 $(document).ready(function(){
 var textLinkAccount = $("#linkAccount").text();
 var username = textLinkAccount.substring(1);
-
 $('#listUser').prepend(username);
 socket.emit("nouveau_client", username);
 });
