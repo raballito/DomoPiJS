@@ -148,6 +148,11 @@ padding: 15px;
 	border-bottom: 2px solid rgba(255,255,255,0.4);
 }
 
+.underlined{
+    border-bottom: 2px solid rgba(255,255,255,0.4);
+    padding-bottom: 5px;
+}
+
 #time {
 	font-size: 8em;
 	line-height: 1.5;

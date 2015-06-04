@@ -286,26 +286,33 @@ html
           // Menu sur le coté
           .row
             nav.col-sm-4.col-md-2.sidebar
-              ul.nav.nav-sidebar
-                li.text-center
-                  h3 Liste des pi&egrave;ces
-                |             
-                li#linkCuisine.active
-                  a(href='#' onclick="return false;")
-                    | Cuisine
-                    span.sr-only (current)
-                |             
-                li#linkSalon
-                  a(href='#' onclick="return false;") Salon
-                |             
-                li#linkChambre
-                  a(href='#' onclick="return false;") Chambre
-                |             
-                li#linkBain
-                  a(href='#' onclick="return false;") Salle de bain
-                | &#x9;    
-                li#linkCouloir
-                  a(href='#' onclick="return false;") Couloir
+              h2.titre.underlined Renseignement Capteurs
+              .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title.titre Temperature
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    
+                    .panel-body
+                        p.text-center
+                          i#iconTemp.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          #containerTemperature.text-center XX
+                          
+              .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title.titre Humidit&eacute;
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    
+                    .panel-body
+                        p.text-center
+                          i#iconHumid.fa.fa-sun-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          #containerHumidity.text-center XX %
+                    
 
             // Fenetre Cuisine
             section#containerCuisine.col-sm-8.main
@@ -320,38 +327,23 @@ html
                       h3.panel-title
                         a(href='#cuisineLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
                     | &#x9;&#x9;&#x9;&#x9;&#x9;
-                    #cuisineLumiere.panel-collapse.collapse
+                    #cuisineLumiere.panel-collapses.collapse
                       .panel-body
                         .row
-                          .text-center.col-sm-6
+                          .text-center.col-xs-6
                             i#ledCuisine1.fa.fa-lightbulb-o.fa-5x
                             | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                             br
                             | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                             button#btnToggleLedCuisine1.btn.btn-lg.btn-primary(type='button') Turn On
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          .text-center.col-sm-6
+                          .text-center.col-xs-6
                             i#ledCuisine2.fa.fa-lightbulb-o.fa-5x
                             | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                             br
                             | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                             button#btnToggleLedCuisine2.btn.btn-lg.btn-primary(type='button') Turn On
                 // Fin du premier onglet - début du 2ème
-                .col-sm-3
-                  .panel.panel-primary
-                    .panel-heading
-                      h3.panel-title
-                        a(href='#cuisineChauffage', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
-                    | &#x9;&#x9;&#x9;&#x9;&#x9;
-                    #cuisineChauffage.panel-collapse.collapse
-                      .panel-body
-                        p.text-center
-                          i#chauffageCuisine.fa.fa-fire.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleChauffageCuisine.btn.btn-lg.btn-primary(type='button') Turn On
-                | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary
                     .panel-heading
@@ -381,9 +373,8 @@ html
                           br
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleElecmenCuisine.btn.btn-lg.btn-primary(type='button') Turn On
-
-            // Fenetre Salon
-            section#containerSalon.col-sm-8.main(hidden='')
+              
+              //Partie Salon
               .row.col-lg-12.titre
                 h2 Salon
               | &#x9;&#x9;&#x9;
@@ -419,21 +410,6 @@ html
                   .panel.panel-primary
                     .panel-heading
                       h3.panel-title
-                        a(href='#salonChauffage', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
-                    | &#x9;&#x9;&#x9;&#x9;&#x9;
-                    #salonChauffage.panel-collapse.collapse
-                      .panel-body
-                        p.text-center
-                          i#chauffageSalon.fa.fa-fire.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleChauffageSalon.btn.btn-lg.btn-primary(type='button') Turn On
-                | &#x9;&#x9;&#x9;
-                .col-sm-3
-                  .panel.panel-primary
-                    .panel-heading
-                      h3.panel-title
                         a(href='#salonStores', data-parent='#monaccordeon', data-toggle='collapse') Stores
                     | &#x9;&#x9;&#x9;&#x9;&#x9;
                     #salonStores.panel-collapse.collapse
@@ -459,9 +435,7 @@ html
                           br
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleMusiqueSalon.btn.btn-lg.btn-primary(type='button') Turn On
-
-            // Fenetre Chambre
-            section#containerChambre.col-sm-8.main(hidden='')
+              //Partie Chambre            
               .row.col-lg-12.titre
                 h2 Chambre
               | &#x9;&#x9;&#x9;
@@ -491,21 +465,6 @@ html
                                     input#slideChambre(type='range', style='-webkit-appearance: slider-vertical', min='0', max='255', step='5', value='0', name='Chambre', objet='Led', onchange='updateSlider(this.value, this.name)')
                                     |  0%
                                     br
-                | &#x9;&#x9;&#x9;
-                .col-sm-3
-                  .panel.panel-primary
-                    .panel-heading
-                      h3.panel-title
-                        a(href='#chambreChauffage', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
-                    | &#x9;&#x9;&#x9;&#x9;&#x9;
-                    #chambreChauffage.panel-collapse.collapse
-                      .panel-body
-                        p.text-center
-                          i#chauffageChambre.fa.fa-fire.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleChauffageChambre.btn.btn-lg.btn-primary(type='button') Turn On
                 | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary
@@ -552,8 +511,7 @@ html
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleMusiqueChambre.btn.btn-lg.btn-primary(type='button') Turn On
 
-            // Fenetre Salle de bain (Bain)
-            section#containerBain.col-sm-8.main(hidden='')
+              // Fenetre Salle de bain (Bain)
               .row.col-lg-12.titre
                 h2 Salle de Bain
               | &#x9;&#x9;&#x9;
@@ -572,21 +530,6 @@ html
                           br
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleLedBain.btn.btn-lg.btn-primary(type='button') Turn On
-                | &#x9;&#x9;&#x9;
-                .col-sm-3
-                  .panel.panel-primary
-                    .panel-heading
-                      h3.panel-title
-                        a(href='#bainChauffage', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
-                    | &#x9;&#x9;&#x9;&#x9;&#x9;
-                    #bainChauffage.panel-collapse.collapse
-                      .panel-body
-                        p.text-center
-                          i#chauffageBain.fa.fa-fire.fa-5x
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          br
-                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-                          button#btnToggleChauffageBain.btn.btn-lg.btn-primary(type='button') Turn On
                 | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary
@@ -618,17 +561,16 @@ html
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleAerationBain.btn.btn-lg.btn-primary(type='button') Turn On
 
-            // Fenetre Couloir
-            section#containerCouloir.col-sm-8.main(hidden='')
+              // Fenetre Divers
               .row.col-lg-12.titre
-                h2 Couloir
+                h2 Divers
               | &#x9;&#x9;&#x9;
               .row
                 .col-sm-3
                   .panel.panel-primary
                     .panel-heading
                       h3.panel-title
-                        a(href='#couloirLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res
+                        a(href='#couloirLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res Couloir
                     | &#x9;&#x9;&#x9;&#x9;&#x9;
                     #couloirLumiere.panel-collapse.collapse
                       .panel-body
@@ -638,6 +580,42 @@ html
                           br
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnToggleLedCouloir.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#maisonChauffage', data-parent='#monaccordeon', data-toggle='collapse') Chauffage
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #maisonChauffage.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#chauffageMaison.fa.fa-fire.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleChauffageMaison.btn.btn-lg.btn-primary(type='button') Turn On
+                | &#x9;&#x9;&#x9;
+                
+                .col-sm-3
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        a(href='#partoutLumiere', data-parent='#monaccordeon', data-toggle='collapse') Lumi&egrave;res Partout!
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    #partoutLumiere.panel-collapse.collapse
+                      .panel-body
+                        p.text-center
+                          i#ledPartout.fa.fa-lightbulb-o.fa-5x
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleAllOn.btn.btn-lg.btn-primary(type='button') Turn All On
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          button#btnToggleAllOn.btn.btn-lg.btn-primary(type='button') Turn All Off
                 | &#x9;&#x9;&#x9;
                 .col-sm-3
                   .panel.panel-primary
@@ -653,6 +631,7 @@ html
                           br
                           | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
                           button#btnLockDoor.btn.btn-lg.btn-primary(type='button') Lock In
+                          
 
       // Fenetre de configuration - doit permettre un reconfiguration à la volée
       #containerConfig.row(hidden='')

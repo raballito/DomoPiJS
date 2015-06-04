@@ -8,12 +8,17 @@ var socket = io.connect(ip);
 $(document).ready(function(){
 var textLinkAccount = $("#linkAccount").text();
 var username = textLinkAccount.substring(1);
-$('#listUser').prepend(username);
 socket.emit("nouveau_client", username);
 });
 //Affichage de tous les gens connectés
-socket.on("nouveau_client", function(username){
-    $('#listUser').prepend('<p>' + username);
+socket.on("nouveau_client", function(data){
+    console.log(data.list);
+    console.log(data.username);
+    $('#listUser').text('');
+    $(data.list).each(function(key, value){
+        $('#listUser').append('<p>' + value);
+    });
+    
 });
 
 
@@ -195,5 +200,7 @@ socket.on("nouveau_client", function(username){
     $("#inData"+code).append(valeur + unite);
     //On annime vers le haut
     $("#inData"+code).animate({scrollTop:$("#inData"+code)[0].scrollHeight - $("#inData"+code).height()},200);
+    //On remplace la valeur de la temp. dans l'onglet du controle
+    $("#containerTemperature").text(valeur + unite);
     
 });
