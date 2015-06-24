@@ -195,9 +195,9 @@ node app.js
 ## Se connecter à l'interface
 
 - Depuis un navigateur récent (Chrome de préférence), taper dans la barre d'adresse, l'IP du Raspberry Pi.
-Elle commence généralement par : 192.168.X.XXX
-Elle devrait aussi apparaître au démarrage du Raspberry Pi, quelques lignes au dessus de celle permettant de se logger.
-Elle est aussi disponible au travers de la commande: 
+Elle commence généralement par : 192.168.X.XXX  
+Elle devrait aussi apparaître au démarrage du Raspberry Pi, quelques lignes au dessus de celle permettant de se logger.  
+Elle est aussi disponible au travers de la commande:   
 ``` bash
 ifconfig
 
