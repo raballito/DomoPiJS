@@ -7,7 +7,7 @@ Copyright at CPNV - www.cpnv.ch
 
 Projet basé sur le [Framework Johnny-five](https://github.com/rwaldron/johnny-five)
 
-Version 0.1.1
+Version 0.4.0
 
 ## Installation sur le Rasperry Pi
 
@@ -85,13 +85,36 @@ npm install
 
 
 ```
-- Installer la base de donnée MongoDB dans le système
+- Installer la base de donnée MongoDB dans le système (Version x86/x64)
 ``` bash
 sudo apt-get install mongod-org
 
 
 ```
+- Installer la base de donnée MongoDB dans le système (Version Raspberry Pi) (tiré de http://www.widriksson.com/install-mongodb-raspberrypi/)
+``` bash
+wget http://www.widriksson.com/wp-content/uploads/2014/02/mongodb-rpi_20140207.zip
 
+adduser --firstuid 100 --ingroup nogroup --shell /etc/false --disabled-password --gecos "" --no-create-home mongodb
+
+cp -R mongodb-rpi/mongo /opt
+chmod +x /opt/mongo/bin/*
+
+mkdir /var/log/mongodb 
+chown mongodb:nogroup /var/log/mongodb
+mkdir /var/lib/mongodb
+chown mongodb:nogroup /var/lib/mongodb
+
+cp mongodb-rpi/debian/init.d /etc/init.d/mongod
+cp mongodb-rpi/debian/mongodb.conf /etc/
+
+ln -s /opt/mongo/bin/mongod /usr/bin/mongod
+chmod u+x /etc/init.d/mongod
+
+update-rc.d mongod defaults
+/etc/init.d/mongod start
+
+```
 
 - Installer la base de donnée MongoDB dans NodeJS
 
@@ -129,7 +152,7 @@ db.createUser(
   {
     user: "admin",
     pwd: "admin",
-    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+    roles: [ { role: "userAdminAnyDatabase", db: "local" } ]
   }
 )
 
@@ -171,13 +194,12 @@ node app.js
 
 ## Se connecter à l'interface
 
-- Depuis un navigateur récent, taper dans la barre d'adresse, l'IP du Raspberry Pi.
+- Depuis un navigateur récent (Chrome de préférence), taper dans la barre d'adresse, l'IP du Raspberry Pi.
 Elle commence généralement par : 192.168.X.XXX
 Elle devrait aussi apparaître au démarrage du Raspberry Pi, quelques lignes au dessus de celle permettant de se logger.
-
-
+Elle est aussi disponible au travers de la commande: 
 ``` bash
-Procédure pour le trouver sur le réseau ----- A VENIR ------
+ifconfig
 
 ```
 
