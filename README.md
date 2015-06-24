@@ -166,6 +166,11 @@ mongod --auth --config /etc/mongodb/mongodb.conf
 
 ```
 
+Partie 2 bis: Ajouter un administrateur/utilisateur en cas d'échec de la précédente solution
+
+Ouvrir le fichier /DomoPiJS/public/views/newIndex.jade et décommenter les lignes 267-268.  
+Elles contiennent un bouton d'enregistrement, très semblable au bouton de connexion, situé peu après.
+
 Partie 3: Ajouter un utilisateur standard 
 
 Passer par l'interface après s'être connecté pour enregistrer un nouvel utilisateur.
